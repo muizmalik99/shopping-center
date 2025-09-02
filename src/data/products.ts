@@ -1,9 +1,4 @@
-import Hero from '@/components/Hero';
-import CategorySection from '@/components/CategorySection';
-import BrandLogos from '@/components/BrandLogos';
-
-// Sample data for demonstration
-const fashionProducts = [
+export const fashionProducts = [
   {
     id: '1',
     name: 'Man T-shirt',
@@ -27,7 +22,7 @@ const fashionProducts = [
   }
 ];
 
-const electronicProducts = [
+export const electronicProducts = [
   {
     id: '4',
     name: 'Laptop',
@@ -51,7 +46,7 @@ const electronicProducts = [
   }
 ];
 
-const jewelleryProducts = [
+export const jewelleryProducts = [
   {
     id: '7',
     name: 'Jumkas',
@@ -74,34 +69,3 @@ const jewelleryProducts = [
     description: 'Beautiful bangles for traditional look'
   }
 ];
-
-export default function Home() {
-  return (
-    <div>
-      <Hero />
-      {/* Fashion Section */}
-      <CategorySection
-        title="Man & Woman Fashion"
-        category="Fashion"
-        products={fashionProducts}
-        bgColor="bg-white"
-      />
-      {/* Electronic Section */}
-      <CategorySection
-        title="Electronic"
-        category="Electronic"
-        products={electronicProducts}
-        bgColor="bg-gray-50"
-      />
-      {/* Jewellery Section */}
-      <CategorySection
-        title="Accessories"
-        category="Jewellery"
-        products={jewelleryProducts}
-        bgColor="bg-white"
-      />
-      {/* Brand Logos Section at the end */}
-      <BrandLogos />
-    </div>
-  );
-}
