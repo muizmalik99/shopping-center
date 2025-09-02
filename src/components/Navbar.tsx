@@ -26,7 +26,6 @@ const Navbar = () => {
     { name: "Jewellery", href: "/products?category=jewellery" },
   ];
 
-  // Trigger enter animation on mount
   useEffect(() => {
     if (isMenuOpen) {
       setIsMenuVisible(true);
@@ -44,31 +43,46 @@ const Navbar = () => {
     <div className="pt-4">
       <nav className="bg-yellow-400 shadow-lg rounded-2xl mx-4 max-w-6xl mx-auto">
         <div className="px-6 sm:px-8 lg:px-10">
-          {/* Top bar - Logo and Desktop Navigation */}
           <div className="flex items-center justify-between h-16">
             <div className="flex-shrink-0">
               <Link href="/" className="text-2xl font-bold text-white">
                 Shopping Center
               </Link>
             </div>
-            {/* Center links on desktop */}
             <div className="hidden md:block flex-1">
               <div className="flex items-center justify-center space-x-4">
-                <Link href="/products?tag=best-sellers" className="text-white hover:text-yellow-100 px-3 py-2 rounded-md text-sm font-medium transition-colors">Best Sellers</Link>
-                <Link href="/products" className="text-white hover:text-yellow-100 px-3 py-2 rounded-md text-sm font-medium transition-colors">Products</Link>
-                <Link href="/products?tag=offers" className="text-white hover:text-yellow-100 px-3 py-2 rounded-md text-sm font-medium transition-colors">Offers</Link>
+                <Link
+                  href="/products?tag=best-sellers"
+                  className="text-white hover:text-yellow-100 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Best Sellers
+                </Link>
+                <Link
+                  href="/products"
+                  className="text-white hover:text-yellow-100 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Products
+                </Link>
+                <Link
+                  href="/products?tag=offers"
+                  className="text-white hover:text-yellow-100 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Offers
+                </Link>
               </div>
             </div>
-            {/* Language select on desktop (right) */}
             <div className="hidden md:flex items-center space-x-2">
               <Flag className="h-5 w-5 text-white" />
               <select className="text-sm text-white bg-transparent border-none focus:outline-none">
-                <option value="en" className="text-gray-900">English</option>
-                <option value="fr" className="text-gray-900">French</option>
+                <option value="en" className="text-gray-900">
+                  English
+                </option>
+                <option value="fr" className="text-gray-900">
+                  French
+                </option>
               </select>
             </div>
           </div>
-          {/* Bottom bar - Mobile Menu, Search, Cart */}
           <div className="flex items-center justify-between py-3 border-t border-yellow-300">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -93,57 +107,53 @@ const Navbar = () => {
               </span>
             </button>
           </div>
-          {/* Mobile Navigation */}
           {isMenuOpen && (
             <>
-              {/* Overlay */}
               <div
-                className="fixed inset-0 bg-black bg-opacity-10 z-[100] transition-opacity duration-300"
+                className="fixed inset-0 bg-opacity-10 z-[100] transition-opacity duration-300"
                 onClick={handleMenuClose}
                 aria-label="Close menu overlay"
               />
-              {/* Mobile Menu Sidebar */}
               <div
-                className={`fixed left-0 top-0 h-full w-80 bg-yellow-300 shadow-xl transition-transform duration-300 ease-in-out z-[110] flex flex-col overflow-hidden`}
+                className={`fixed left-0 top-0 h-full w-80 bg-white shadow-xl transition-transform duration-300 ease-in-out z-[110] flex flex-col overflow-hidden`}
                 style={{
-                  boxShadow: '0 0 40px 0 rgba(0,0,0,0.15)',
-                  transform: isMenuVisible ? 'translateX(0)' : 'translateX(-100%)',
+                  boxShadow: "0 0 40px 0 rgba(0,0,0,0.15)",
+                  transform: isMenuVisible
+                    ? "translateX(0)"
+                    : "translateX(-100%)",
                 }}
               >
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 space-y-1">
-                  {/* Home Link */}
                   <Link
                     href="/"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-white bg-yellow-500 hover:bg-yellow-600 transition-colors mb-2"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-black  hover:bg-yellow-600 transition-colors mb-2"
                     onClick={handleMenuClose}
                   >
                     Home
                   </Link>
-                  {/* Quick Links */}
                   <Link
                     href="/products?tag=best-sellers"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-white bg-yellow-400 hover:bg-yellow-500 transition-colors"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-black  hover:bg-yellow-500 transition-colors"
                     onClick={handleMenuClose}
                   >
                     Best Sellers
                   </Link>
                   <Link
                     href="/products"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-white bg-yellow-400 hover:bg-yellow-500 transition-colors"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-black  hover:bg-yellow-500 transition-colors"
                     onClick={handleMenuClose}
                   >
                     Products
                   </Link>
                   <Link
                     href="/products?tag=offers"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-white bg-yellow-400 hover:bg-yellow-500 transition-colors mb-2"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-black  hover:bg-yellow-500 transition-colors mb-2"
                     onClick={handleMenuClose}
                   >
                     Offers
                   </Link>
-                  {/* Categories Button */}
                   <button
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-white bg-yellow-500 hover:bg-yellow-600 transition-colors mb-2"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-black  hover:bg-yellow-600 transition-colors mb-2"
                     onClick={() => setShowCategories((prev) => !prev)}
                   >
                     <span className="flex items-center gap-2">
@@ -155,14 +165,13 @@ const Navbar = () => {
                       <ChevronDown className="h-5 w-5" />
                     )}
                   </button>
-                  {/* Category Links */}
                   {showCategories && (
                     <div className="space-y-1 mb-2">
                       {categories.map((category) => (
                         <Link
                           key={category.name}
                           href={category.href}
-                          className="block px-6 py-2 text-white hover:text-yellow-100 rounded-md text-base font-medium bg-yellow-400 hover:bg-yellow-500 transition-colors"
+                          className="block px-6 py-2 text-black hover:text-yellow-100 rounded-md text-base font-medium  hover:bg-yellow-500 transition-colors"
                           onClick={handleMenuClose}
                         >
                           {category.name}
@@ -170,10 +179,9 @@ const Navbar = () => {
                       ))}
                     </div>
                   )}
-                  {/* Add Product Button */}
                   <Link
                     href="/add-product"
-                    className="block w-full mt-4 px-3 py-2 rounded-md text-base font-medium text-white bg-yellow-500 hover:bg-yellow-600 transition-colors text-center"
+                    className="block w-full mt-4 px-3 py-2 rounded-md text-base font-medium text-black hover:bg-yellow-600 transition-colors "
                     onClick={handleMenuClose}
                   >
                     Add Product

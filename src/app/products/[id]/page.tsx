@@ -95,7 +95,6 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = () => {
     // Handle add to cart logic here
-    console.log("Added to cart:", { ...product, quantity });
   };
 
   const toggleWishlist = () => {

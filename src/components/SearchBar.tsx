@@ -13,12 +13,6 @@ const SearchBar = ({ compact = false }: SearchBarProps) => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(
-      "Searching for:",
-      searchQuery,
-      "in category:",
-      selectedCategory
-    );
   };
 
   if (compact) {

@@ -231,7 +231,6 @@ export default function ProductsPage() {
 
   const handleAddToCart = (product: Product) => {
     // Handle add to cart logic here
-    console.log("Added to cart:", product);
   };
 
   return (

@@ -53,7 +53,6 @@ export default function AddProductPage() {
       const existing: any[] = existingRaw ? JSON.parse(existingRaw) : [];
       localStorage.setItem(storageKey, JSON.stringify([newProduct, ...existing]));
 
-      console.log("Product added:", newProduct);
       resetForm();
       alert("Product added successfully!");
       router.push("/products");

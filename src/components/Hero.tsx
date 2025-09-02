@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const Hero = () => {
   return (
-    <section className="relative bg-gradient-to-r from-yellow-400 to-yellow-600 text-white overflow-hidden">
+    <section className="relative bg-gradient-to-r from-yellow-200 to-yellow-600 text-white overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{

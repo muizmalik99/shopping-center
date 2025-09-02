@@ -18,14 +18,7 @@ interface CartProps {
 
 const Cart = ({ isOpen, onClose }: CartProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([
-    // Sample cart items
-    {
-      id: '1',
-      name: 'Man T-shirt',
-      price: 30,
-      quantity: 1,
-      image: '/api/placeholder/60/60'
-    }
+  
   ]);
 
   const updateQuantity = (id: string, newQuantity: number) => {
@@ -52,7 +45,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-40 z-[100] transition-opacity duration-300"
+        className="fixed inset-0  bg-opacity-5 z-[100] transition-opacity duration-300"
         onClick={onClose}
         aria-label="Close cart overlay"
       />
@@ -60,7 +53,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
       {/* Cart Sidebar */}
       <div
         className="fixed right-0 top-0 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out z-[110] flex flex-col"
-        style={{ boxShadow: '0 0 40px 0 rgba(0,0,0,0.15)' }}
+        style={{ boxShadow: '0 0 40px 0 rgba(165, 84, 84, 0.15)' }}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
