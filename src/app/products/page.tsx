@@ -4,167 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Filter, Grid, List } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  category: string;
-  description?: string;
-}
-
-const seedProducts: Product[] = [
-  {
-    id: "1",
-    name: "Man T-shirt",
-    price: 30,
-    image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop",
-    category: "fashion",
-    description: "Comfortable and stylish t-shirt for men",
-  },
-  {
-    id: "2",
-    name: "Man Shirt",
-    price: 30,
-    image:
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=300&fit=crop",
-    category: "fashion",
-    description: "Elegant formal shirt for professional look",
-  },
-  {
-    id: "3",
-    name: "Woman Scarf",
-    price: 30,
-    image:
-      "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop",
-    category: "fashion",
-    description: "Beautiful and warm scarf for women",
-  },
-  {
-    id: "4",
-    name: "Woman Dress",
-    price: 45,
-    image:
-      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=300&fit=crop",
-    category: "fashion",
-    description: "Elegant dress for special occasions",
-  },
-  {
-    id: "5",
-    name: "Sneakers",
-    price: 60,
-    image:
-      "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop",
-    category: "fashion",
-    description: "Comfortable and stylish sneakers",
-  },
-
-  {
-    id: "6",
-    name: "Laptop",
-    price: 100,
-    image:
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop",
-    category: "electronic",
-    description: "High-performance laptop for work and gaming",
-  },
-  {
-    id: "7",
-    name: "Mobile",
-    price: 100,
-    image:
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop",
-    category: "electronic",
-    description: "Latest smartphone with advanced features",
-  },
-  {
-    id: "8",
-    name: "Computers",
-    price: 100,
-    image:
-      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop",
-    category: "electronic",
-    description: "Powerful desktop computers for professionals",
-  },
-  {
-    id: "9",
-    name: "Headphones",
-    price: 80,
-    image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop",
-    category: "electronic",
-    description: "High-quality wireless headphones",
-  },
-  {
-    id: "10",
-    name: "Smartwatch",
-    price: 120,
-    image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop",
-    category: "electronic",
-    description: "Feature-rich smartwatch for fitness tracking",
-  },
-
-  // Jewellery Products
-  {
-    id: "11",
-    name: "Jumkas",
-    price: 100,
-    image:
-      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=300&fit=crop",
-    category: "jewellery",
-    description: "Traditional Indian earrings for special occasions",
-  },
-  {
-    id: "12",
-    name: "Necklaces",
-    price: 100,
-    image:
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=300&fit=crop",
-    category: "jewellery",
-    description: "Elegant necklaces to enhance your beauty",
-  },
-  {
-    id: "13",
-    name: "Kangans",
-    price: 100,
-    image:
-      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=300&fit=crop",
-    category: "jewellery",
-    description: "Beautiful bangles for traditional look",
-  },
-  {
-    id: "14",
-    name: "Rings",
-    price: 150,
-    image:
-      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=300&fit=crop",
-    category: "jewellery",
-    description: "Stunning rings for special moments",
-  },
-  {
-    id: "15",
-    name: "Bracelets",
-    price: 80,
-    image:
-      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=300&fit=crop",
-    category: "jewellery",
-    description: "Elegant bracelets for daily wear",
-  },
-];
-
-function loadProducts(): Product[] {
-  if (typeof window === "undefined") return seedProducts;
-  try {
-    const userRaw = localStorage.getItem("userProducts");
-    const userProducts: Product[] = userRaw ? JSON.parse(userRaw) : [];
-    return [...userProducts, ...seedProducts];
-  } catch {
-    return seedProducts;
-  }
-}
+import { seedProducts, loadProducts, Product } from "@/data/products";
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
@@ -249,71 +89,73 @@ export default function ProductsPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <div className={`${isFilterOpen ? "block" : "hidden"} lg:col-span-1`}>
-            <div className="bg-white rounded-lg shadow-sm p-6 lg:sticky lg:top-24">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <Filter className="h-5 w-5 mr-2" />
-                Filters
-              </h3>
+          {isFilterOpen && (
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-lg shadow-sm p-6 lg:sticky lg:top-24">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <Filter className="h-5 w-5 mr-2" />
+                  Filters
+                </h3>
 
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-700 mb-3">Category</h4>
-                <div className="space-y-2">
-                  {["all", "fashion", "electronic", "jewellery"].map(
-                    (category) => (
-                      <label key={category} className="flex items-center">
-                        <input
-                          type="radio"
-                          name="category"
-                          value={category}
-                          checked={selectedCategory === category}
-                          onChange={(e) => setSelectedCategory(e.target.value)}
-                          className="mr-2"
-                        />
-                        <span className="capitalize">{category}</span>
-                      </label>
-                    )
-                  )}
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-700 mb-3">Price Range</h4>
-                <div className="space-y-2">
-                  <input
-                    type="range"
-                    min="0"
-                    max="200"
-                    value={priceRange.max}
-                    onChange={(e) =>
-                      setPriceRange((prev) => ({
-                        ...prev,
-                        max: parseInt(e.target.value),
-                      }))
-                    }
-                    className="w-full"
-                  />
-                  <div className="flex justify-between text-sm text-gray-600">
-                    <span>${priceRange.min}</span>
-                    <span>${priceRange.max}</span>
+                <div className="mb-6">
+                  <h4 className="font-medium text-gray-700 mb-3">Category</h4>
+                  <div className="space-y-2">
+                    {["all", "fashion", "electronic", "jewellery"].map(
+                      (category) => (
+                        <label key={category} className="flex items-center">
+                          <input
+                            type="radio"
+                            name="category"
+                            value={category}
+                            checked={selectedCategory === category}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            className="mr-2"
+                          />
+                          <span className="capitalize">{category}</span>
+                        </label>
+                      )
+                    )}
                   </div>
                 </div>
-              </div>
 
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-700 mb-3">Sort By</h4>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="name">Name</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                </select>
+                <div className="mb-6">
+                  <h4 className="font-medium text-gray-700 mb-3">Price Range</h4>
+                  <div className="space-y-2">
+                    <input
+                      type="range"
+                      min="0"
+                      max="200"
+                      value={priceRange.max}
+                      onChange={(e) =>
+                        setPriceRange((prev) => ({
+                          ...prev,
+                          max: parseInt(e.target.value),
+                        }))
+                      }
+                      className="w-full"
+                    />
+                    <div className="flex justify-between text-sm text-gray-600">
+                      <span>${priceRange.min}</span>
+                      <span>${priceRange.max}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-6">
+                  <h4 className="font-medium text-gray-700 mb-3">Sort By</h4>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as any)}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="name">Name</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           <div className={`${isFilterOpen ? "lg:col-span-3" : "lg:col-span-4"}`}>
             <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
@@ -329,12 +171,14 @@ export default function ProductsPage() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
-                    onClick={() => setIsFilterOpen((prev) => !prev)}
+                    onClick={() => setIsFilterOpen((v) => !v)}
                     className={`p-2 rounded border ${
-                      isFilterOpen ? "bg-blue-100 text-blue-600 border-blue-200" : "text-gray-600"
+                      isFilterOpen ? "bg-blue-100 text-blue-600 border-blue-200" : "text-gray-600 border-gray-300"
                     }`}
                   >
-                    <span className="inline-flex items-center gap-2"><Filter className="h-5 w-5" /> Filters</span>
+                    <span className="inline-flex items-center gap-1">
+                      <Filter className="h-5 w-5" /> {isFilterOpen ? "Hide Filters" : "Show Filters"}
+                    </span>
                   </button>
                   <button
                     onClick={() => setViewMode("grid")}
