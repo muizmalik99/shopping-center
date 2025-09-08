@@ -10,17 +10,26 @@ interface FileUploadProps {
   onClear: () => void;
 }
 
-export default function FileUpload({ label, preview, onChange, onClear }: FileUploadProps) {
+export default function FileUpload({
+  label,
+  preview,
+  onChange,
+  onClear,
+}: FileUploadProps) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        {label}
+      </label>
       <div className="space-y-4">
         <label
           className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300
                      border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
         >
           <Upload className="w-8 h-8 mb-2 text-gray-400" />
-          <p className="text-sm text-gray-500">Click to upload or drag and drop</p>
+          <p className="text-sm text-gray-500">
+            Click to upload or drag and drop
+          </p>
           <input
             type="file"
             accept="image/*"

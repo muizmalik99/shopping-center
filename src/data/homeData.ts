@@ -77,3 +77,5 @@ export const jewelleryProducts: HomeProduct[] = [
     description: 'Beautiful bangles for traditional look'
   }
 ];
+
+

@@ -13,12 +13,14 @@ import {
 } from "lucide-react";
 import SearchBar from "./SearchBar";
 import Cart from "./Cart";
+import { useCart } from "@/contexts/CartContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const { cartCount } = useCart();
 
   const categories = [
     { name: "Fashion", href: "/products?category=fashion" },
@@ -103,7 +105,7 @@ const Navbar = () => {
             >
               <ShoppingCart className="h-5 w-5" />
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
+                {cartCount}
               </span>
             </button>
           </div>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ShoppingCart, Heart } from 'lucide-react';
+import { useCart } from '@/contexts/CartContext';
 
 interface Product {
   id: string;
@@ -15,14 +16,18 @@ interface Product {
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: (product: Product) => void;
+  onAddToCart?: (product: Product) => void;
 }
 
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    onAddToCart(product);
+    addToCart(product);
+    if (onAddToCart) {
+      onAddToCart(product);
+    }
   };
 
   const toggleWishlist = () => {
@@ -80,13 +85,20 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
           <div className="text-lg font-bold text-yellow-600">
             ${product.price}
           </div>
-          <button
-            onClick={handleAddToCart}
-            className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center space-x-2"
-          >
-            <ShoppingCart className="h-4 w-4" />
-            <span>Add to Cart</span>
-          </button>
+          <div className="flex space-x-2">
+            <button
+              onClick={handleAddToCart}
+              className="text-yellow-600 hover:text-yellow-700 transition-colors flex items-center space-x-2"
+            >
+              <ShoppingCart className="h-5 w-5" />
+            </button>
+            <Link
+              href={`/products/${product.id}`}
+              className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center space-x-2"
+            >
+              <span>Buy Now</span>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

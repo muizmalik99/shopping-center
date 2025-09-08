@@ -2,14 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, Trash2, ShoppingBag } from "lucide-react";
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import { useCart, CartItem } from "@/contexts/CartContext";
 
 interface CartProps {
   isOpen: boolean;
@@ -17,29 +10,8 @@ interface CartProps {
 }
 
 const Cart = ({ isOpen, onClose }: CartProps) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { cartItems, updateQuantity, removeFromCart, total } = useCart();
   const [isVisible, setIsVisible] = useState(false);
-
-  const updateQuantity = (id: string, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      setCartItems((items) => items.filter((item) => item.id !== id));
-    } else {
-      setCartItems((items) =>
-        items.map((item) =>
-          item.id === id ? { ...item, quantity: newQuantity } : item
-        )
-      );
-    }
-  };
-
-  const removeItem = (id: string) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-  };
-
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
 
   useEffect(() => {
     if (isOpen) {
@@ -132,7 +104,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                     </div>
                   </div>
                   <button
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => removeFromCart(item.id)}
                     className="p-1 text-red-500 hover:text-red-700 transition-all duration-200 hover:scale-110"
                   >
                     <Trash2 className="h-4 w-4" />
