@@ -9,6 +9,7 @@ import { seedProducts, loadProducts, Product } from "@/data/products";
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
+  const tagParam = searchParams.get("tag");
 
   const [products, setProducts] = useState<Product[]>(seedProducts);
   const [filteredProducts, setFilteredProducts] =
@@ -28,6 +29,11 @@ export default function ProductsPage() {
     const merged = loadProducts();
     setProducts(merged);
   }, []);
+
+  // Keep selectedCategory in sync with the URL when navigating between query params
+  useEffect(() => {
+    setSelectedCategory(categoryParam || "all");
+  }, [categoryParam]);
 
   useEffect(() => {
     let filtered = products;
@@ -56,6 +62,17 @@ export default function ProductsPage() {
 
     // Sort products
     filtered.sort((a, b) => {
+      // If "best-sellers" tag is active, prioritize by reviews (desc)
+      if (tagParam === "best-sellers") {
+        const aReviews = a.reviews ?? 0;
+        const bReviews = b.reviews ?? 0;
+        return bReviews - aReviews;
+      }
+      // If "offers" tag is active, prioritize by lowest price
+      if (tagParam === "offers") {
+        return a.price - b.price;
+      }
+
       switch (sortBy) {
         case "price-low":
           return a.price - b.price;
@@ -67,7 +84,7 @@ export default function ProductsPage() {
     });
 
     setFilteredProducts(filtered);
-  }, [selectedCategory, searchQuery, priceRange, sortBy, products]);
+  }, [selectedCategory, searchQuery, priceRange, sortBy, products, tagParam]);
 
   const handleAddToCart = (product: Product) => {
     // Handle add to cart logic here
@@ -79,7 +96,7 @@ export default function ProductsPage() {
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            All Products
+            {tagParam === "best-sellers" ? "Best Sellers" : tagParam === "offers" ? "Offers" : "All Products"}
           </h1>
           <p className="text-gray-600">
             Discover amazing products in our collection
