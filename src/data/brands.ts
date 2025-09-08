@@ -15,14 +15,7 @@ export const brands = [
     name: "Samsung",
     logo: "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg",
   },
-  {
-    name: "Sony",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/d/d4/Sony_logo.svg",
-  },
-  {
-    name: "LG",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/f/f6/LG_Corporation_logo.svg",
-  },
+ 
   {
     name: "Dell",
     logo: "https://upload.wikimedia.org/wikipedia/commons/4/48/Dell_Logo.svg",
@@ -31,10 +24,7 @@ export const brands = [
     name: "HP",
     logo: "https://www.logo.wine/a/logo/Hewlett-Packard/Hewlett-Packard-Logo.wine.svg",
   },
-  {
-    name: "Canon",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/0/00/Canon_logo_svg.svg",
-  },
+ 
   {
     name: "Nikon",
     logo: "https://www.logo.wine/a/logo/Nikon/Nikon-Logo.wine.svg",
@@ -55,8 +45,5 @@ export const brands = [
     name: "Tiffany",
     logo: "https://www.logo.wine/a/logo/Tiffany_%26_Co./Tiffany_%26_Co.-Logo.wine.svg",
   },
-  {
-    name: "Rolex",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/f/f0/Rolex_logo_2014.svg",
-  },
+ 
 ];

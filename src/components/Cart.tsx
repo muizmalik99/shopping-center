@@ -126,9 +126,9 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                 ${total}
               </span>
             </div>
-            <button className="w-full bg-yellow-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-600 transition-all duration-200 hover:scale-105 hover:shadow-lg">
+            <a href="/checkout" className="w-full inline-block text-center bg-yellow-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-600 transition-all duration-200 hover:scale-105 hover:shadow-lg">
               Checkout
-            </button>
+            </a>
           </div>
         )}
       </div>

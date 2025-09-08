@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCart } from "@/contexts/CartContext";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -77,6 +79,8 @@ export default function ProductDetailPage() {
 
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const { addToCart } = useCart();
+  const router = useRouter();
 
   if (!product) {
     return (
@@ -94,7 +98,14 @@ export default function ProductDetailPage() {
   }
 
   const handleAddToCart = () => {
-    // Handle add to cart logic here
+    if (!product) return;
+    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
+  };
+
+  const handleBuyNow = () => {
+    if (!product) return;
+    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
+    router.push('/checkout');
   };
 
   const toggleWishlist = () => {
@@ -232,6 +243,13 @@ export default function ProductDetailPage() {
               >
                 <ShoppingCart className="h-5 w-5" />
                 <span>Add to Cart</span>
+              </button>
+              <button
+                onClick={handleBuyNow}
+                disabled={product.stock === 0}
+                className="flex-1 bg-yellow-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-yellow-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+              >
+                Buy Now
               </button>
               <button
                 onClick={toggleWishlist}

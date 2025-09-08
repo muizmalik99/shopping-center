@@ -1,5 +1,9 @@
+"use client";
+
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useCart } from '@/contexts/CartContext';
 
 interface CategoryProduct {
   id: string;
@@ -17,6 +21,13 @@ interface CategorySectionProps {
 }
 
 const CategorySection = ({ title, category, products, bgColor = 'bg-gray-50' }: CategorySectionProps) => {
+  const { addToCart } = useCart();
+  const router = useRouter();
+
+  const handleBuyNow = (product: CategoryProduct) => {
+    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
+    router.push('/checkout');
+  };
   return (
     <section className={`py-16 ${bgColor}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,7 +66,7 @@ const CategorySection = ({ title, category, products, bgColor = 'bg-gray-50' }: 
                   <div className="text-xl font-bold text-yellow-600">
                     ${product.price}
                   </div>
-                  <button className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                  <button onClick={() => handleBuyNow(product)} className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
                     Buy Now
                   </button>
                 </div>

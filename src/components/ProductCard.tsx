@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ShoppingCart, Heart } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 
@@ -22,6 +23,7 @@ interface ProductCardProps {
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const { addToCart } = useCart();
+  const router = useRouter();
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -32,6 +34,11 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
 
   const toggleWishlist = () => {
     setIsWishlisted(!isWishlisted);
+  };
+
+  const handleBuyNow = () => {
+    addToCart(product);
+    router.push('/checkout');
   };
 
   return (
@@ -92,12 +99,12 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
             >
               <ShoppingCart className="h-5 w-5" />
             </button>
-            <Link
-              href={`/products/${product.id}`}
+            <button
+              onClick={handleBuyNow}
               className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center space-x-2"
             >
               <span>Buy Now</span>
-            </Link>
+            </button>
           </div>
         </div>
       </div>
