@@ -90,7 +90,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                       >
                         -
                       </button>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-black">
                         {item.quantity}
                       </span>
                       <button

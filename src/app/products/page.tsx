@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { Filter, Grid, List } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
@@ -91,9 +91,9 @@ export default function ProductsPage() {
     setSearchQuery(searchParams.get("q") || "");
   }, [searchParams]);
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = useCallback((product: Product) => {
     // Handle add to cart logic here
-  };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">

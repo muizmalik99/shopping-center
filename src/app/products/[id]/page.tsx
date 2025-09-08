@@ -166,7 +166,7 @@ export default function ProductDetailPage() {
                 >
                   -
                 </button>
-                <span className="px-4 py-2 border-x border-gray-300">
+                <span className="px-4 py-2 border-x border-gray-300 text-black">
                   {quantity}
                 </span>
                 <button
