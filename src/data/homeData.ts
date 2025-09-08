@@ -57,7 +57,7 @@ export const electronicProducts: HomeProduct[] = [
 export const jewelleryProducts: HomeProduct[] = [
   {
     id: '7',
-    name: 'Jumkas',
+    name: 'Earrings',
     price: 100,
     image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=300&fit=crop',
     description: 'Traditional Indian earrings for special occasions'
@@ -71,7 +71,7 @@ export const jewelleryProducts: HomeProduct[] = [
   },
   {
     id: '9',
-    name: 'Kangans',
+    name: 'Bangles',
     price: 100,
     image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=300&fit=crop',
     description: 'Beautiful bangles for traditional look'

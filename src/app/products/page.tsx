@@ -17,7 +17,7 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState(
     categoryParam || "all"
   );
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
   const [priceRange, setPriceRange] = useState({ min: 0, max: 200 });
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState<"name" | "price-low" | "price-high">(
@@ -86,6 +86,11 @@ export default function ProductsPage() {
     setFilteredProducts(filtered);
   }, [selectedCategory, searchQuery, priceRange, sortBy, products, tagParam]);
 
+  // Keep local searchQuery in sync with URL changes
+  useEffect(() => {
+    setSearchQuery(searchParams.get("q") || "");
+  }, [searchParams]);
+
   const handleAddToCart = (product: Product) => {
     // Handle add to cart logic here
   };
@@ -115,7 +120,7 @@ export default function ProductsPage() {
                 </h3>
 
                 <div className="mb-6">
-                  <h4 className="font-medium text-gray-700 mb-3">Category</h4>
+                  <h4 className="font-medium text-black mb-3">Category</h4>
                   <div className="space-y-2">
                     {["all", "fashion", "electronic", "jewellery"].map(
                       (category) => (
@@ -128,7 +133,7 @@ export default function ProductsPage() {
                             onChange={(e) => setSelectedCategory(e.target.value)}
                             className="mr-2"
                           />
-                          <span className="capitalize">{category}</span>
+                          <span className="capitalize text-black">{category}</span>
                         </label>
                       )
                     )}
@@ -183,7 +188,7 @@ export default function ProductsPage() {
                     placeholder="Search products..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md"
+                    className="w-full p-2 border border-gray-300 rounded-md text-black"
                   />
                 </div>
                 <div className="flex items-center space-x-2">

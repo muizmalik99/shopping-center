@@ -55,9 +55,11 @@ const CategorySection = ({ title, category, products, bgColor = 'bg-gray-50' }: 
               </div>
 
               <div className="p-6">
-                <h3 className="font-semibold text-gray-800 text-lg mb-2">
-                  {product.name}
-                </h3>
+                <Link href={`/products/${product.id}`}>
+                  <h3 className="font-semibold text-gray-800 text-lg mb-2 hover:text-yellow-600 transition-colors">
+                    {product.name}
+                  </h3>
+                </Link>
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                   {product.description}
                 </p>
@@ -66,7 +68,7 @@ const CategorySection = ({ title, category, products, bgColor = 'bg-gray-50' }: 
                   <div className="text-xl font-bold text-yellow-600">
                     ${product.price}
                   </div>
-                  <button onClick={() => handleBuyNow(product)} className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                  <button onClick={() => handleBuyNow(product)} className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors cursor-pointer">
                     Buy Now
                   </button>
                 </div>

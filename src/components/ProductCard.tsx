@@ -95,13 +95,13 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
           <div className="flex space-x-2">
             <button
               onClick={handleAddToCart}
-              className="text-yellow-600 hover:text-yellow-700 transition-colors flex items-center space-x-2"
+              className="text-yellow-600 hover:text-yellow-700 transition-colors flex items-center space-x-2 cursor-pointer"
             >
               <ShoppingCart className="h-5 w-5" />
             </button>
             <button
               onClick={handleBuyNow}
-              className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center space-x-2"
+              className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center space-x-2 cursor-pointer"
             >
               <span>Buy Now</span>
             </button>

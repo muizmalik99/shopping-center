@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
-import { useParams } from "next/navigation";
+import { loadProducts } from "@/data/products";
 import Link from "next/link";
 import {
   ShoppingCart,
@@ -14,68 +14,13 @@ import {
   RotateCcw,
 } from "lucide-react";
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  category: string;
-  description: string;
-  rating: number;
-  reviews: number;
-  stock: number;
-}
-
-const getProductById = (id: string): Product | null => {
-  const products: Product[] = [
-    {
-      id: "1",
-      name: "Man T-shirt",
-      price: 30,
-      image:
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop",
-      category: "fashion",
-      description:
-        "Comfortable and stylish t-shirt for men. Made from 100% cotton, this t-shirt features a classic fit and is perfect for everyday wear. Available in multiple colors and sizes.",
-      rating: 4.5,
-      reviews: 128,
-      stock: 50,
-    },
-    {
-      id: "2",
-      name: "Man Shirt",
-      price: 30,
-      image:
-        "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&h=600&fit=crop",
-      category: "fashion",
-      description:
-        "Elegant formal shirt for professional look. This premium cotton shirt features a modern slim fit design with reinforced stitching for durability.",
-      rating: 4.3,
-      reviews: 89,
-      stock: 35,
-    },
-    {
-      id: "3",
-      name: "Woman Scarf",
-      price: 30,
-      image:
-        "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&h=600&fit=crop",
-      category: "fashion",
-      description:
-        "Beautiful and warm scarf for women. Made from soft acrylic blend, this scarf provides warmth and style during cold weather.",
-      rating: 4.7,
-      reviews: 156,
-      stock: 75,
-    },
-  ];
-
-  return products.find((p) => p.id === id) || null;
-};
+type Product = ReturnType<typeof loadProducts>[number];
 
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
-  const product = getProductById(productId);
+  const allProducts = useMemo(() => loadProducts(), []);
+  const product = allProducts.find((p) => p.id === productId) || null;
 
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -239,7 +184,7 @@ export default function ProductDetailPage() {
               <button
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
-                className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2 cursor-pointer"
               >
                 <ShoppingCart className="h-5 w-5" />
                 <span>Add to Cart</span>
@@ -247,13 +192,13 @@ export default function ProductDetailPage() {
               <button
                 onClick={handleBuyNow}
                 disabled={product.stock === 0}
-                className="flex-1 bg-yellow-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-yellow-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                className="flex-1 bg-yellow-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-yellow-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors cursor-pointer"
               >
                 Buy Now
               </button>
               <button
                 onClick={toggleWishlist}
-                className={`p-3 rounded-lg border-2 transition-colors ${
+                className={`p-3 rounded-lg border-2 transition-colors cursor-pointer ${
                   isWishlisted
                     ? "border-red-500 text-red-500"
                     : "border-gray-300 text-gray-600 hover:border-red-500 hover:text-red-500"

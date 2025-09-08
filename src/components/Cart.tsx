@@ -86,7 +86,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                         onClick={() =>
                           updateQuantity(item.id, item.quantity - 1)
                         }
-                        className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-sm hover:bg-gray-300 transition-all duration-200 hover:scale-110"
+                        className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-sm hover:bg-gray-300 transition-all duration-200 hover:scale-110 cursor-pointer"
                       >
                         -
                       </button>
@@ -97,7 +97,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                         onClick={() =>
                           updateQuantity(item.id, item.quantity + 1)
                         }
-                        className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-sm hover:bg-gray-300 transition-all duration-200 hover:scale-110"
+                        className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-sm hover:bg-gray-300 transition-all duration-200 hover:scale-110 cursor-pointer"
                       >
                         +
                       </button>
@@ -105,7 +105,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                   </div>
                   <button
                     onClick={() => removeFromCart(item.id)}
-                    className="p-1 text-red-500 hover:text-red-700 transition-all duration-200 hover:scale-110"
+                    className="p-1 text-red-500 hover:text-red-700 transition-all duration-200 hover:scale-110 cursor-pointer"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -126,7 +126,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                 ${total}
               </span>
             </div>
-            <a href="/checkout" className="w-full inline-block text-center bg-yellow-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-600 transition-all duration-200 hover:scale-105 hover:shadow-lg">
+            <a href="/checkout" className="w-full inline-block text-center bg-yellow-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-600 transition-all duration-200 hover:scale-105 hover:shadow-lg cursor-pointer">
               Checkout
             </a>
           </div>

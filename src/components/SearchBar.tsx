@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Search, Filter } from "lucide-react";
 
 interface SearchBarProps {
@@ -10,9 +11,16 @@ interface SearchBarProps {
 const SearchBar = ({ compact = false }: SearchBarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    const params = new URLSearchParams();
+    if (searchQuery.trim()) params.set("q", searchQuery.trim());
+    if (!compact && selectedCategory !== "all") {
+      params.set("category", selectedCategory);
+    }
+    router.push(`/products${params.toString() ? `?${params.toString()}` : ""}`);
   };
 
   if (compact) {

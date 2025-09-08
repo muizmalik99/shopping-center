@@ -101,7 +101,7 @@ const Navbar = () => {
             </div>
             <button
               onClick={() => setIsCartOpen(!isCartOpen)}
-              className="p-2 text-white hover:text-yellow-100 transition-colors relative"
+              className="p-2 text-white hover:text-yellow-100 transition-colors relative cursor-pointer"
             >
               <ShoppingCart className="h-5 w-5" />
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">

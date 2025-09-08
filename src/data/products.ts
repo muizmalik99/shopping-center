@@ -12,7 +12,7 @@ export interface Product {
 export const seedProducts: Product[] = [
   {
     id: "1",
-    name: "Man T-shirt",
+    name: "Men's T-Shirt",
     price: 30,
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop",
     category: "fashion",
@@ -22,7 +22,7 @@ export const seedProducts: Product[] = [
   },
   {
     id: "2",
-    name: "Man Shirt",
+    name: "Men's Shirt",
     price: 30,
     image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=300&fit=crop",
     category: "fashion",
@@ -32,7 +32,7 @@ export const seedProducts: Product[] = [
   },
   {
     id: "3",
-    name: "Woman Scarf",
+    name: "Women's Scarf",
     price: 30,
     image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop",
     category: "fashion",
@@ -42,7 +42,7 @@ export const seedProducts: Product[] = [
   },
   {
     id: "4",
-    name: "Woman Dress",
+    name: "Women's Dress",
     price: 45,
     image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=300&fit=crop",
     category: "fashion",
@@ -72,7 +72,7 @@ export const seedProducts: Product[] = [
   },
   {
     id: "7",
-    name: "Mobile",
+    name: "Smartphone",
     price: 100,
     image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop",
     category: "electronic",
@@ -82,7 +82,7 @@ export const seedProducts: Product[] = [
   },
   {
     id: "8",
-    name: "Computers",
+    name: "Desktop Computer",
     price: 100,
     image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop",
     category: "electronic",
@@ -112,7 +112,7 @@ export const seedProducts: Product[] = [
   },
   {
     id: "11",
-    name: "Jumkas",
+    name: "Earrings",
     price: 100,
     image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=300&fit=crop",
     category: "jewellery",
@@ -132,7 +132,7 @@ export const seedProducts: Product[] = [
   },
   {
     id: "13",
-    name: "Kangans",
+    name: "Bangles",
     price: 100,
     image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=300&fit=crop",
     category: "jewellery",
