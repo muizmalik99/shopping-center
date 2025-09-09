@@ -50,7 +50,7 @@ export default function AddProductPage() {
 
       const storageKey = "userProducts";
       const existingRaw = typeof window !== "undefined" ? localStorage.getItem(storageKey) : null;
-      const existing: any[] = existingRaw ? JSON.parse(existingRaw) : [];
+      const existing: typeof newProduct[] = existingRaw ? JSON.parse(existingRaw) : [];
       localStorage.setItem(storageKey, JSON.stringify([newProduct, ...existing]));
 
       resetForm();

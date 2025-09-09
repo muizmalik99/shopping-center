@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { X, Trash2, ShoppingBag } from "lucide-react";
 import { useCart, CartItem } from "@/contexts/CartContext";
 
@@ -19,25 +19,23 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
     }
   }, [isOpen]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setIsVisible(false);
     setTimeout(() => {
       onClose();
     }, 300);
-  };
+  }, [onClose]);
 
   if (!isOpen) return null;
 
   return (
     <>
-      {/* Overlay */}
       <div
         className="fixed inset-0 bg-opacity-5 z-[100] transition-opacity duration-300"
         onClick={handleClose}
         aria-label="Close cart overlay"
       />
 
-      {/* Cart Sidebar */}
       <div
         className="fixed right-0 top-0 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out z-[110] flex flex-col"
         style={{
@@ -45,7 +43,6 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
           transform: isVisible ? "translateX(0)" : "translateX(100%)",
         }}
       >
-        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-800">Shopping Cart</h2>
           <button
@@ -57,7 +54,6 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
           </button>
         </div>
 
-        {/* Cart Items */}
         <div className="flex-1 overflow-y-auto p-4">
           {cartItems.length === 0 ? (
             <div className="text-center py-8">
@@ -115,7 +111,6 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
           )}
         </div>
 
-        {/* Footer */}
         {cartItems.length > 0 && (
           <div className="border-t border-gray-200 p-4">
             <div className="flex justify-between items-center mb-4">
@@ -126,7 +121,10 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                 ${total}
               </span>
             </div>
-            <a href="/checkout" className="w-full inline-block text-center bg-yellow-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-600 transition-all duration-200 hover:scale-105 hover:shadow-lg cursor-pointer">
+            <a
+              href="/checkout"
+              className="w-full inline-block text-center bg-yellow-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-600 transition-all duration-200 hover:scale-105 hover:shadow-lg cursor-pointer"
+            >
               Checkout
             </a>
           </div>
@@ -136,4 +134,4 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
   );
 };
 
-export default Cart;
+export default memo(Cart);

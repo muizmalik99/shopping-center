@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, memo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Filter, Grid, List } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import { seedProducts, loadProducts, Product } from "@/data/products";
 
-export default function ProductsPage() {
+const ProductsPage = () => {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
   const tagParam = searchParams.get("tag");
@@ -18,7 +18,7 @@ export default function ProductsPage() {
     categoryParam || "all"
   );
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 200 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState<"name" | "price-low" | "price-high">(
     "name"
@@ -30,7 +30,6 @@ export default function ProductsPage() {
     setProducts(merged);
   }, []);
 
-  // Keep selectedCategory in sync with the URL when navigating between query params
   useEffect(() => {
     setSelectedCategory(categoryParam || "all");
   }, [categoryParam]);
@@ -38,14 +37,12 @@ export default function ProductsPage() {
   useEffect(() => {
     let filtered = products;
 
-    // Filter by category
     if (selectedCategory !== "all") {
       filtered = filtered.filter(
         (product) => product.category === selectedCategory
       );
     }
 
-    // Filter by search query
     if (searchQuery) {
       filtered = filtered.filter(
         (product) =>
@@ -54,21 +51,20 @@ export default function ProductsPage() {
       );
     }
 
-    // Filter by price range
-    filtered = filtered.filter(
-      (product) =>
-        product.price >= priceRange.min && product.price <= priceRange.max
-    );
+    // Filter by price range (only when filters are open)
+    if (isFilterOpen) {
+      filtered = filtered.filter(
+        (product) =>
+          product.price >= priceRange.min && product.price <= priceRange.max
+      );
+    }
 
-    // Sort products
     filtered.sort((a, b) => {
-      // If "best-sellers" tag is active, prioritize by reviews (desc)
       if (tagParam === "best-sellers") {
         const aReviews = a.reviews ?? 0;
         const bReviews = b.reviews ?? 0;
         return bReviews - aReviews;
       }
-      // If "offers" tag is active, prioritize by lowest price
       if (tagParam === "offers") {
         return a.price - b.price;
       }
@@ -84,24 +80,24 @@ export default function ProductsPage() {
     });
 
     setFilteredProducts(filtered);
-  }, [selectedCategory, searchQuery, priceRange, sortBy, products, tagParam]);
+  }, [selectedCategory, searchQuery, priceRange, sortBy, products, tagParam, isFilterOpen]);
 
-  // Keep local searchQuery in sync with URL changes
   useEffect(() => {
     setSearchQuery(searchParams.get("q") || "");
   }, [searchParams]);
 
-  const handleAddToCart = useCallback((product: Product) => {
-    // Handle add to cart logic here
-  }, []);
+  const handleAddToCart = useCallback((product: Product) => {}, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {tagParam === "best-sellers" ? "Best Sellers" : tagParam === "offers" ? "Offers" : "All Products"}
+            {tagParam === "best-sellers"
+              ? "Best Sellers"
+              : tagParam === "offers"
+              ? "Offers"
+              : "All Products"}
           </h1>
           <p className="text-gray-600">
             Discover amazing products in our collection
@@ -130,10 +126,14 @@ export default function ProductsPage() {
                             name="category"
                             value={category}
                             checked={selectedCategory === category}
-                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            onChange={(e) =>
+                              setSelectedCategory(e.target.value)
+                            }
                             className="mr-2"
                           />
-                          <span className="capitalize text-black">{category}</span>
+                          <span className="capitalize text-black">
+                            {category}
+                          </span>
                         </label>
                       )
                     )}
@@ -141,12 +141,14 @@ export default function ProductsPage() {
                 </div>
 
                 <div className="mb-6">
-                  <h4 className="font-medium text-gray-700 mb-3">Price Range</h4>
+                  <h4 className="font-medium text-gray-700 mb-3">
+                    Price Range
+                  </h4>
                   <div className="space-y-2">
                     <input
                       type="range"
                       min="0"
-                      max="200"
+                      max="1000"
                       value={priceRange.max}
                       onChange={(e) =>
                         setPriceRange((prev) => ({
@@ -167,7 +169,7 @@ export default function ProductsPage() {
                   <h4 className="font-medium text-gray-700 mb-3">Sort By</h4>
                   <select
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as any)}
+                    onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
                     className="w-full p-2 border border-gray-300 rounded-md"
                   >
                     <option value="name">Name</option>
@@ -179,7 +181,9 @@ export default function ProductsPage() {
             </div>
           )}
 
-          <div className={`${isFilterOpen ? "lg:col-span-3" : "lg:col-span-4"}`}>
+          <div
+            className={`${isFilterOpen ? "lg:col-span-3" : "lg:col-span-4"}`}
+          >
             <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
               <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
                 <div className="flex-1 max-w-md">
@@ -195,11 +199,14 @@ export default function ProductsPage() {
                   <button
                     onClick={() => setIsFilterOpen((v) => !v)}
                     className={`p-2 rounded border ${
-                      isFilterOpen ? "bg-blue-100 text-blue-600 border-blue-200" : "text-gray-600 border-gray-300"
+                      isFilterOpen
+                        ? "bg-blue-100 text-blue-600 border-blue-200"
+                        : "text-gray-600 border-gray-300"
                     }`}
                   >
                     <span className="inline-flex items-center gap-1">
-                      <Filter className="h-5 w-5" /> {isFilterOpen ? "Hide Filters" : "Show Filters"}
+                      <Filter className="h-5 w-5" />{" "}
+                      {isFilterOpen ? "Hide Filters" : "Show Filters"}
                     </span>
                   </button>
                   <button
@@ -228,8 +235,7 @@ export default function ProductsPage() {
 
             <div className="mb-4">
               <p className="text-gray-600">
-                Showing {filteredProducts.length} of {products.length}{" "}
-                products
+                Showing {filteredProducts.length} of {products.length} products
               </p>
             </div>
 
@@ -261,4 +267,6 @@ export default function ProductsPage() {
       </div>
     </div>
   );
-}
+};
+
+export default memo(ProductsPage);

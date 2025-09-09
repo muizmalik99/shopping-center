@@ -51,8 +51,9 @@ export default function CheckoutPage() {
       clearCart();
       setMessage(`Order placed successfully! Order ID: ${result.orderId}`);
       if (result.previewUrl) setPreviewUrl(result.previewUrl);
-    } catch (err: any) {
-      setMessage(err.message || "Something went wrong.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Something went wrong.";
+      setMessage(message);
     } finally {
       setLoading(false);
     }

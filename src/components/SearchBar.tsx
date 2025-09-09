@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, memo } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Filter } from "lucide-react";
 
@@ -13,7 +13,7 @@ const SearchBar = ({ compact = false }: SearchBarProps) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const router = useRouter();
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();
     if (searchQuery.trim()) params.set("q", searchQuery.trim());
@@ -21,7 +21,7 @@ const SearchBar = ({ compact = false }: SearchBarProps) => {
       params.set("category", selectedCategory);
     }
     router.push(`/products${params.toString() ? `?${params.toString()}` : ""}`);
-  };
+  }, [searchQuery, selectedCategory, compact, router]);
 
   if (compact) {
     return (
@@ -85,4 +85,4 @@ const SearchBar = ({ compact = false }: SearchBarProps) => {
   );
 };
 
-export default SearchBar;
+export default memo(SearchBar);

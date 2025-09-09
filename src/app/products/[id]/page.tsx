@@ -27,6 +27,9 @@ export default function ProductDetailPage() {
   const { addToCart } = useCart();
   const router = useRouter();
 
+  type MaybeStock = { stock?: number };
+  const stock: number = (product as MaybeStock).stock ?? 100;
+
   if (!product) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -44,13 +47,23 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (!product) return;
-    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
   };
 
   const handleBuyNow = () => {
     if (!product) return;
-    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
-    router.push('/checkout');
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
+    router.push("/checkout");
   };
 
   const toggleWishlist = () => {
@@ -60,7 +73,6 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Breadcrumb */}
         <nav className="flex mb-8" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-3">
             <li className="inline-flex items-center">
@@ -89,7 +101,6 @@ export default function ProductDetailPage() {
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Product Image */}
           <div className="space-y-4">
             <div className="aspect-square overflow-hidden rounded-lg bg-white">
               <img
@@ -100,60 +111,54 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Product Info */}
           <div className="space-y-6">
-            {/* Category */}
             <div className="inline-block">
               <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full capitalize">
                 {product.category}
               </span>
             </div>
 
-            {/* Title */}
             <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
 
-            {/* Rating */}
             <div className="flex items-center space-x-2">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
                     className={`h-5 w-5 ${
-                      i < Math.floor(product.rating)
+                      i < Math.floor(product.rating ?? 0)
                         ? "text-yellow-400 fill-current"
                         : "text-gray-300"
                     }`}
                   />
                 ))}
               </div>
-              <span className="text-gray-600">({product.reviews} reviews)</span>
+              <span className="text-gray-600">
+                ({product.reviews ?? 0} reviews)
+              </span>
             </div>
 
-            {/* Price */}
             <div className="text-3xl font-bold text-blue-600">
               ${product.price}
             </div>
 
-            {/* Description */}
             <p className="text-gray-600 leading-relaxed">
               {product.description}
             </p>
 
-            {/* Stock Status */}
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-600">Availability:</span>
-              <span
-                className={`text-sm font-medium ${
-                  product.stock > 0 ? "text-green-600" : "text-red-600"
-                }`}
-              >
-                {product.stock > 0
-                  ? `In Stock (${product.stock} available)`
-                  : "Out of Stock"}
-              </span>
+              {stock > 0 ? (
+                <span className="text-sm font-medium text-green-600">
+                  In Stock
+                </span>
+              ) : (
+                <span className="text-sm font-medium text-red-600">
+                  Out of Stock
+                </span>
+              )}
             </div>
 
-            {/* Quantity Selector */}
             <div className="flex items-center space-x-4">
               <span className="text-sm font-medium text-gray-700">
                 Quantity:
@@ -172,18 +177,17 @@ export default function ProductDetailPage() {
                 <button
                   onClick={() => setQuantity(quantity + 1)}
                   className="px-3 py-2 text-gray-600 hover:text-gray-800"
-                  disabled={quantity >= product.stock}
+                  disabled={quantity >= stock}
                 >
                   +
                 </button>
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="flex space-x-4">
               <button
                 onClick={handleAddToCart}
-                disabled={product.stock === 0}
+                disabled={stock === 0}
                 className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2 cursor-pointer"
               >
                 <ShoppingCart className="h-5 w-5" />
@@ -191,7 +195,7 @@ export default function ProductDetailPage() {
               </button>
               <button
                 onClick={handleBuyNow}
-                disabled={product.stock === 0}
+                disabled={stock === 0}
                 className="flex-1 bg-yellow-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-yellow-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors cursor-pointer"
               >
                 Buy Now
@@ -210,7 +214,6 @@ export default function ProductDetailPage() {
               </button>
             </div>
 
-            {/* Features */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-gray-200">
               <div className="flex items-center space-x-2">
                 <Truck className="h-5 w-5 text-green-600" />

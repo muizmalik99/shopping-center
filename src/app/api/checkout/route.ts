@@ -3,20 +3,7 @@ export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
-
-interface CheckoutRequestBody {
-  name: string;
-  email: string;
-  address: string;
-  contact: string;
-  cart: Array<{
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-  }>;
-  total: number;
-}
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
   try {
@@ -40,7 +27,6 @@ export async function POST(request: Request) {
     const smtpPass = process.env.SMTP_PASS;
     const fromEmailEnv = process.env.FROM_EMAIL || smtpUser;
 
-    // If SMTP is not configured, create an Ethereal test account for development
     let transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo>;
     let fromEmail = fromEmailEnv;
     let usingEthereal = false;
@@ -48,7 +34,7 @@ export async function POST(request: Request) {
     if (!smtpHost || !smtpUser || !smtpPass || !fromEmailEnv) {
       const testAccount = await nodemailer.createTestAccount();
       transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
+        host: "smtp.ethereal.email",
         port: 587,
         secure: false,
         auth: { user: testAccount.user, pass: testAccount.pass },
@@ -67,7 +53,9 @@ export async function POST(request: Request) {
     const itemsTable = cart
       .map(
         (item) =>
-          `${item.name} x ${item.quantity} — $${(item.price * item.quantity).toFixed(2)}`
+          `${item.name} x ${item.quantity} — $${(
+            item.price * item.quantity
+          ).toFixed(2)}`
       )
       .join("\n");
 
@@ -86,9 +74,9 @@ export async function POST(request: Request) {
           ${cart
             .map(
               (item) =>
-                `<li>${item.name} x ${item.quantity} — $${(item.price * item.quantity).toFixed(
-                  2
-                )}</li>`
+                `<li>${item.name} x ${item.quantity} — $${(
+                  item.price * item.quantity
+                ).toFixed(2)}</li>`
             )
             .join("")}
         </ul>
@@ -106,7 +94,9 @@ export async function POST(request: Request) {
       html,
     });
 
-    const previewUrl = usingEthereal ? nodemailer.getTestMessageUrl(info) : undefined;
+    const previewUrl = usingEthereal
+      ? nodemailer.getTestMessageUrl(info)
+      : undefined;
 
     return NextResponse.json({ success: true, orderId, previewUrl });
   } catch (error) {
@@ -118,4 +108,21 @@ export async function POST(request: Request) {
   }
 }
 
+export async function GET() {
+  const users = await prisma.user.findMany();
+  return NextResponse.json(users);
+}
 
+interface CheckoutRequestBody {
+  name: string;
+  email: string;
+  address: string;
+  contact: string;
+  cart: Array<{
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+  }>;
+  total: number;
+}

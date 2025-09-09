@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { memo, useMemo } from "react";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -67,7 +68,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
@@ -114,7 +114,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Customer Service */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Customer Service</h4>
             <ul className="space-y-2">
@@ -162,7 +161,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Contact Info */}
         <div className="mt-8 pt-8 border-t border-gray-700">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
@@ -189,7 +187,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-gray-700 text-center">
           <p className="text-gray-400">
             © {currentYear} All Rights Reserved. Design by Shopping Center Team
@@ -200,4 +197,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);

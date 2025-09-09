@@ -59,19 +59,19 @@ export const jewelleryProducts: HomeProduct[] = [
     id: '7',
     name: 'Earrings',
     price: 100,
-    image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=300&fit=crop',
+    image: 'https://meerzah.pk/cdn/shop/files/en-554..jpg?v=1702126736&width=1040',
     description: 'Traditional Indian earrings for special occasions'
   },
   {
     id: '8',
-    name: 'Necklaces',
+    name: 'Necklace',
     price: 100,
     image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=300&fit=crop',
     description: 'Elegant necklaces to enhance your beauty'
   },
   {
     id: '9',
-    name: 'Bangles',
+    name: 'Bangle',
     price: 100,
     image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=300&fit=crop',
     description: 'Beautiful bangles for traditional look'

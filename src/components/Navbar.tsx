@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import {
   ShoppingCart,
@@ -22,11 +22,14 @@ const Navbar = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const { cartCount } = useCart();
 
-  const categories = [
-    { name: "Fashion", href: "/products?category=fashion" },
-    { name: "Electronic", href: "/products?category=electronic" },
-    { name: "Jewellery", href: "/products?category=jewellery" },
-  ];
+  const categories = useMemo(
+    () => [
+      { name: "Fashion", href: "/products?category=fashion" },
+      { name: "Electronic", href: "/products?category=electronic" },
+      { name: "Jewellery", href: "/products?category=jewellery" },
+    ],
+    []
+  );
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -34,12 +37,12 @@ const Navbar = () => {
     }
   }, [isMenuOpen]);
 
-  const handleMenuClose = () => {
+  const handleMenuClose = useCallback(() => {
     setIsMenuVisible(false);
     setTimeout(() => {
       setIsMenuOpen(false);
     }, 300);
-  };
+  }, []);
 
   return (
     <div className="pt-4">
@@ -188,19 +191,6 @@ const Navbar = () => {
                   >
                     Add Product
                   </Link>
-                  <div className="pt-4 border-t border-yellow-200 mt-4">
-                    <div className="flex items-center space-x-2 px-3 py-2">
-                      <Flag className="h-4 w-4 text-white" />
-                      <select className="text-sm text-white bg-transparent border-none focus:outline-none">
-                        <option value="en" className="text-gray-900">
-                          English
-                        </option>
-                        <option value="fr" className="text-gray-900">
-                          French
-                        </option>
-                      </select>
-                    </div>
-                  </div>
                 </div>
               </div>
             </>

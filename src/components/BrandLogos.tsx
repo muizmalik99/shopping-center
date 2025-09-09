@@ -1,9 +1,9 @@
 import Image from 'next/image';
+import { memo, useMemo } from 'react';
 import { brands } from '@/data/brands';
 
 const BrandLogos = () => {
-  // Repeat the brands array enough times to fill the scroll area for seamless effect
-  const repeatedBrands = [...brands, ...brands, ...brands];
+  const repeatedBrands = useMemo(() => [...brands, ...brands, ...brands], []);
   return (
     <section className="py-16 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,7 +13,6 @@ const BrandLogos = () => {
          
         </div>
         <div className="relative">
-          {/* Single row - seamless infinite scroll */}
           <div className="flex animate-scroll-left items-center w-max">
             {repeatedBrands.map((brand, index) => (
               <div
@@ -36,4 +35,4 @@ const BrandLogos = () => {
   );
 };
 
-export default BrandLogos;
+export default memo(BrandLogos);
