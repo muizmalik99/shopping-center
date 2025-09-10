@@ -74,7 +74,7 @@ const ProductsPage = () => {
       );
     }
 
-    
+    // Sorting
     if (tagParam === "best-sellers") {
       filtered.sort((a, b) => (b.reviews ?? 0) - (a.reviews ?? 0));
     } else if (tagParam === "offers") {
@@ -103,14 +103,13 @@ const ProductsPage = () => {
     isFilterOpen,
   ]);
 
-  
+  // Sync query param "q" with search input
   useEffect(() => {
     setSearchQuery(searchParams.get("q") || "");
   }, [searchParams]);
 
   const handleAddToCart = useCallback((product: Product) => {
     console.log("Add to cart:", product);
-    
   }, []);
 
   if (loading) return null;
