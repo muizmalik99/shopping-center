@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Save } from "lucide-react";
 import FileUpload from "@/app/add-product/FileUpload";
 import ProductInput from "./ProductInput";
+import { createProduct } from "@/lib/api/products";
 
 export default function AddProductPage() {
   const [formData, setFormData] = useState(initialForm);
@@ -38,20 +39,14 @@ export default function AddProductPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await new Promise((r) => setTimeout(r, 1000));
-      const newProduct = {
-        id: Date.now().toString(),
+      await createProduct({
         name: formData.name,
         price: parseFloat(formData.price),
         image: formData.image,
         category: formData.category,
         description: formData.description,
-      };
-
-      const storageKey = "userProducts";
-      const existingRaw = typeof window !== "undefined" ? localStorage.getItem(storageKey) : null;
-      const existing: typeof newProduct[] = existingRaw ? JSON.parse(existingRaw) : [];
-      localStorage.setItem(storageKey, JSON.stringify([newProduct, ...existing]));
+        stock: parseInt(formData.stock, 10),
+      });
 
       resetForm();
       alert("Product added successfully!");
@@ -159,14 +154,14 @@ export default function AddProductPage() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="px-6 py-2 border text-gray-700 rounded-md hover:bg-gray-50"
+                className="px-6 py-2 border text-gray-700 rounded-md hover:bg-gray-50 cursor-pointer"
               >
                 Reset
               </button>
               <button
                 type="submit"
                 disabled={!isFormValid || isSubmitting}
-                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 
+                className="px-6 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 cursor-pointer 
                            disabled:bg-gray-400 flex items-center space-x-2"
               >
                 <Save className="w-4 h-4" />

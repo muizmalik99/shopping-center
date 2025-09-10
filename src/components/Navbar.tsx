@@ -91,7 +91,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between py-3 border-t border-yellow-300">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-white hover:text-yellow-100 transition-colors"
+              className="p-2 text-white hover:text-yellow-100 transition-colors cursor-pointer"
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -158,7 +158,7 @@ const Navbar = () => {
                     Offers
                   </Link>
                   <button
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-black  hover:bg-yellow-600 transition-colors mb-2"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-black hover:bg-yellow-600 transition-colors mb-2 cursor-pointer"
                     onClick={() => setShowCategories((prev) => !prev)}
                   >
                     <span className="flex items-center gap-2">

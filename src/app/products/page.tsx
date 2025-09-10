@@ -1,19 +1,19 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback, memo } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Filter, Grid, List } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { seedProducts, loadProducts, Product } from "@/data/products";
+import { Product } from "@/types/types";
+import { listProducts } from "@/lib/api/products";
 
 const ProductsPage = () => {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
   const tagParam = searchParams.get("tag");
 
-  const [products, setProducts] = useState<Product[]>(seedProducts);
-  const [filteredProducts, setFilteredProducts] =
-    useState<Product[]>(seedProducts);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(
     categoryParam || "all"
   );
@@ -24,34 +24,49 @@ const ProductsPage = () => {
     "name"
   );
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const merged = loadProducts();
-    setProducts(merged);
-  }, []);
+    async function fetchProducts() {
+      setLoading(true);
+      try {
+        const data = await listProducts({ tag: tagParam || undefined });
+        setProducts(data);
+        setFilteredProducts(data);
+      } catch (err) {
+        console.error("Failed to load products", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
+  }, [tagParam]);
 
   useEffect(() => {
     setSelectedCategory(categoryParam || "all");
   }, [categoryParam]);
 
   useEffect(() => {
-    let filtered = products;
+    let filtered = [...products];
 
-    if (selectedCategory !== "all") {
-      filtered = filtered.filter(
-        (product) => product.category === selectedCategory
-      );
+    if (isFilterOpen) {
+      if (selectedCategory !== "all") {
+        filtered = filtered.filter(
+          (product) => product.category === selectedCategory
+        );
+      }
+
+      if (searchQuery) {
+        filtered = filtered.filter(
+          (product) =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            product.description
+              ?.toLowerCase()
+              .includes(searchQuery.toLowerCase())
+        );
+      }
     }
 
-    if (searchQuery) {
-      filtered = filtered.filter(
-        (product) =>
-          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.description?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    // Filter by price range (only when filters are open)
     if (isFilterOpen) {
       filtered = filtered.filter(
         (product) =>
@@ -59,34 +74,46 @@ const ProductsPage = () => {
       );
     }
 
-    filtered.sort((a, b) => {
-      if (tagParam === "best-sellers") {
-        const aReviews = a.reviews ?? 0;
-        const bReviews = b.reviews ?? 0;
-        return bReviews - aReviews;
-      }
-      if (tagParam === "offers") {
-        return a.price - b.price;
-      }
-
+    
+    if (tagParam === "best-sellers") {
+      filtered.sort((a, b) => (b.reviews ?? 0) - (a.reviews ?? 0));
+    } else if (tagParam === "offers") {
+      filtered.sort((a, b) => a.price - b.price);
+    } else {
       switch (sortBy) {
         case "price-low":
-          return a.price - b.price;
+          filtered.sort((a, b) => a.price - b.price);
+          break;
         case "price-high":
-          return b.price - a.price;
+          filtered.sort((a, b) => b.price - a.price);
+          break;
         default:
-          return a.name.localeCompare(b.name);
+          filtered.sort((a, b) => a.name.localeCompare(b.name));
       }
-    });
+    }
 
     setFilteredProducts(filtered);
-  }, [selectedCategory, searchQuery, priceRange, sortBy, products, tagParam, isFilterOpen]);
+  }, [
+    selectedCategory,
+    searchQuery,
+    priceRange,
+    sortBy,
+    products,
+    tagParam,
+    isFilterOpen,
+  ]);
 
+  
   useEffect(() => {
     setSearchQuery(searchParams.get("q") || "");
   }, [searchParams]);
 
-  const handleAddToCart = useCallback((product: Product) => {}, []);
+  const handleAddToCart = useCallback((product: Product) => {
+    console.log("Add to cart:", product);
+    
+  }, []);
+
+  if (loading) return null;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -195,12 +222,13 @@ const ProductsPage = () => {
                     className="w-full p-2 border border-gray-300 rounded-md text-black"
                   />
                 </div>
+
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => setIsFilterOpen((v) => !v)}
-                    className={`p-2 rounded border ${
+                    className={`p-2 rounded border cursor-pointer ${
                       isFilterOpen
-                        ? "bg-blue-100 text-blue-600 border-blue-200"
+                        ? "bg-yellow-100 text-yellow-600 border-yellow-200"
                         : "text-gray-600 border-gray-300"
                     }`}
                   >
@@ -211,9 +239,9 @@ const ProductsPage = () => {
                   </button>
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`p-2 rounded ${
+                    className={`p-2 rounded cursor-pointer ${
                       viewMode === "grid"
-                        ? "bg-blue-100 text-blue-600"
+                        ? "bg-yellow-100 text-yellow-600"
                         : "text-gray-400"
                     }`}
                   >
@@ -221,9 +249,9 @@ const ProductsPage = () => {
                   </button>
                   <button
                     onClick={() => setViewMode("list")}
-                    className={`p-2 rounded ${
+                    className={`p-2 rounded cursor-pointer ${
                       viewMode === "list"
-                        ? "bg-blue-100 text-blue-600"
+                        ? "bg-yellow-100 text-yellow-600"
                         : "text-gray-400"
                     }`}
                   >

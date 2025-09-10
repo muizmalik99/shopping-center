@@ -115,7 +115,7 @@ export default function CheckoutPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-yellow-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-600 transition-all duration-200 hover:scale-105 hover:shadow-lg disabled:opacity-60"
+              className="w-full bg-yellow-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-600 transition-all duration-200 hover:scale-105 hover:shadow-lg disabled:opacity-60 cursor-pointer"
             >
               {loading ? "Placing Order..." : "Place Order"}
             </button>
@@ -124,7 +124,7 @@ export default function CheckoutPage() {
                 <p>{message}</p>
                 {previewUrl && (
                   <p>
-                    Email preview: <a className="text-blue-600 underline" href={previewUrl} target="_blank" rel="noreferrer">Open</a>
+                    Email preview: <a className="text-yellow-600 underline" href={previewUrl} target="_blank" rel="noreferrer">Open</a>
                   </p>
                 )}
               </div>

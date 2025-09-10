@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="col-span-1 lg:col-span-2">
-            <h3 className="text-2xl font-bold text-blue-400 mb-4">
+            <h3 className="text-2xl font-bold text-yellow-400 mb-4">
               Shopping Center
             </h3>
             <p className="text-gray-300 mb-4 max-w-md">
@@ -164,21 +164,21 @@ const Footer = () => {
         <div className="mt-8 pt-8 border-t border-gray-700">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
-              <Phone className="h-5 w-5 text-blue-400" />
+              <Phone className="h-5 w-5 text-yellow-400" />
               <div>
                 <p className="text-sm text-gray-400">Help Line Number</p>
                 <p className="font-medium">+1 1800 1200 1200</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <Mail className="h-5 w-5 text-blue-400" />
+              <Mail className="h-5 w-5 text-yellow-400" />
               <div>
                 <p className="text-sm text-gray-400">Email</p>
                 <p className="font-medium">support@shoppingcenter.com</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <MapPin className="h-5 w-5 text-blue-400" />
+              <MapPin className="h-5 w-5 text-yellow-400" />
               <div>
                 <p className="text-sm text-gray-400">Address</p>
                 <p className="font-medium">123 Shopping Center, NY 10001</p>

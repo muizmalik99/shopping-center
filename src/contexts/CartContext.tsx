@@ -1,5 +1,6 @@
 "use client";
 
+import { CartItem } from "@/types/types";
 import React, {
   createContext,
   useContext,
@@ -10,24 +11,16 @@ import React, {
   ReactNode,
 } from "react";
 
-export interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: {
-    id: string;
+    id: number;
     name: string;
     price: number;
     image: string;
   }) => void;
-  removeFromCart: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  removeFromCart: (id: number) => void;
+  updateQuantity: (id: number, quantity: number) => void;
   clearCart: () => void;
   cartCount: number;
   total: number;
@@ -70,7 +63,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   }, [cartItems]);
 
   const addToCart = useCallback(
-    (product: { id: string; name: string; price: number; image: string }) => {
+    (product: { id: number; name: string; price: number; image: string }) => {
       setCartItems((prevItems) => {
         const existingItem = prevItems.find((item) => item.id === product.id);
 
@@ -88,12 +81,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     []
   );
 
-  const removeFromCart = useCallback((id: string) => {
+  const removeFromCart = useCallback((id: number) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   }, []);
 
   const updateQuantity = useCallback(
-    (id: string, quantity: number) => {
+    (id: number, quantity: number) => {
       if (quantity <= 0) {
         removeFromCart(id);
       } else {

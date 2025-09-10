@@ -4,10 +4,11 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
 import { prisma } from "@/lib/prisma";
+import { CheckoutRequest } from "@/types/types";
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as CheckoutRequestBody;
+    const body = (await request.json()) as CheckoutRequest;
     const { name, email, address, contact, cart, total } = body;
 
     if (!name || !email || !address || !contact || !Array.isArray(cart)) {
@@ -89,7 +90,7 @@ export async function POST(request: Request) {
     const info = await transporter.sendMail({
       from: fromEmail,
       to: email,
-      subject: `Your order ${orderId} at Shopping Center`,
+      subject: `Order Confirmation at Shopping Center`,
       text,
       html,
     });
@@ -113,16 +114,4 @@ export async function GET() {
   return NextResponse.json(users);
 }
 
-interface CheckoutRequestBody {
-  name: string;
-  email: string;
-  address: string;
-  contact: string;
-  cart: Array<{
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-  }>;
-  total: number;
-}
+

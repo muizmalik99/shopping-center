@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useMemo, useState, memo } from "react";
+import { useCallback, useState, memo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ShoppingCart, Heart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { Product } from "@/types/types";
 
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -40,7 +41,7 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
 
         <button
           onClick={toggleWishlist}
-          className={`absolute top-3 right-3 p-2 rounded-full transition-colors ${
+          className={`absolute top-3 right-3 p-2 rounded-full transition-colors cursor-pointer ${
             isWishlisted
               ? "bg-red-500 text-white"
               : "bg-white text-gray-600 hover:text-red-500"
@@ -94,14 +95,6 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
 };
 
 export default memo(ProductCard);
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  category: string;
-  description?: string;
-}
 
 interface ProductCardProps {
   product: Product;

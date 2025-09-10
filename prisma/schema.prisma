@@ -12,3 +12,15 @@ model User {
   name  String
   email String @unique
 }
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  price       Float
+  image       String
+  category    String
+  description String?
+  rating      Float
+  reviews     Int
+}
+
+

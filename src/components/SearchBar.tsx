@@ -37,7 +37,7 @@ const SearchBar = ({ compact = false }: SearchBarProps) => {
             />
             <button
               type="submit"
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-yellow-600"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-yellow-600 cursor-pointer"
             >
               <Search className="h-4 w-4" />
             </button>
@@ -60,7 +60,7 @@ const SearchBar = ({ compact = false }: SearchBarProps) => {
           />
           <button
             type="submit"
-            className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-yellow-600"
+            className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-yellow-600 cursor-pointer"
           >
             <Search className="h-5 w-5" />
           </button>

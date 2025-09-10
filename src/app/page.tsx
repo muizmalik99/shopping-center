@@ -2,6 +2,7 @@ import Hero from '@/components/Hero';
 import CategorySection from '@/components/CategorySection';
 import BrandLogos from '@/components/BrandLogos';
 import { fashionProducts, electronicProducts, jewelleryProducts } from '@/data/homeData';
+import { Suspense } from 'react';
 
 export default function Home() {
   return (
@@ -25,7 +26,9 @@ export default function Home() {
         products={jewelleryProducts}
         bgColor="bg-white"
       />
-      <BrandLogos />
+      <Suspense fallback={<div className="py-8"><div className="h-6 w-40 bg-gray-200 rounded mb-4 animate-pulse" /><div className="grid grid-cols-2 md:grid-cols-4 gap-6">{Array.from({length:4}).map((_,i)=>(<div key={i} className="h-12 bg-gray-200 rounded animate-pulse" />))}</div></div>}>
+        <BrandLogos />
+      </Suspense>
     </div>
   );
 }
