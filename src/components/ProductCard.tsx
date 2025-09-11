@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, memo } from "react";
+import { useCallback, memo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ShoppingCart } from "lucide-react";
@@ -10,8 +10,9 @@ import { Product } from "@/types/types";
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const { addToCart } = useCart();
   const router = useRouter();
-
+  const [clicked, setClicked] = useState(false);
   const handleAddToCart = useCallback(() => {
+    setClicked(true);
     addToCart(product);
     if (onAddToCart) {
       onAddToCart(product);
@@ -61,13 +62,15 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
           <div className="flex space-x-2">
             <button
               onClick={handleAddToCart}
-              className="text-yellow-600 hover:text-yellow-700 transition-colors flex items-center space-x-2 cursor-pointer"
+              className={`transition-colors flex items-center space-x-2 cursor-pointer ${
+                clicked ? "text-blue-500" : "text-yellow-700"
+              }`}
             >
               <ShoppingCart className="h-5 w-5" />
             </button>
             <button
               onClick={handleBuyNow}
-              className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center space-x-2 cursor-pointer"
+              className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center space-x-2 cursor-pointer }"
             >
               <span>Buy Now</span>
             </button>

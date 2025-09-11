@@ -1,18 +1,21 @@
 import { Product } from "@/types/types";
 
 export async function listProducts(params?: { tag?: string }) {
-  const url = new URL("/api/products", typeof window === "undefined" ? "http://localhost" : window.location.origin);
+  const url = new URL(
+    "/api/products",
+    typeof window === "undefined" ? "http://localhost" : window.location.origin
+  );
   if (params?.tag) url.searchParams.set("tag", params.tag);
-  const res = await fetch(url.toString(), { 
-    next: { revalidate: 3600 } // ISR - revalidate every hour
+  const res = await fetch(url.toString(), {
+    next: { revalidate: 3600 },
   });
   if (!res.ok) throw new Error("Failed to fetch products");
   return (await res.json()) as Product[];
 }
 
 export async function getProduct(id: number | string) {
-  const res = await fetch(`/api/products/${id}`, { 
-    next: { revalidate: 3600 } // ISR - revalidate every hour
+  const res = await fetch(`/api/products/${id}`, {
+    next: { revalidate: 3600 },
   });
   if (!res.ok) throw new Error("Failed to fetch product");
   return (await res.json()) as Product;
@@ -26,16 +29,14 @@ export async function createProduct(input: {
   description: string;
   stock?: number;
 }) {
-  const res = await fetch('/api/products', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  const res = await fetch("/api/products", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || 'Failed to create product');
+    throw new Error(err.error || "Failed to create product");
   }
   return (await res.json()) as Product;
 }
-
-

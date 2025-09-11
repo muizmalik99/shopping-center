@@ -1,12 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { Product } from "@/types/types";
 
-// Server-side data fetching functions for static generation
-
-export async function getProductsServer(params?: { tag?: string }): Promise<Product[]> {
+export async function getProductsServer(params?: {
+  tag?: string;
+}): Promise<Product[]> {
   try {
     let products;
-    
+
     if (params?.tag === "best-sellers") {
       products = await prisma.product.findMany({
         orderBy: { reviews: "desc" },
@@ -30,16 +30,18 @@ export async function getProductsServer(params?: { tag?: string }): Promise<Prod
   }
 }
 
-export async function getProductServer(id: number | string): Promise<Product | null> {
+export async function getProductServer(
+  id: number | string
+): Promise<Product | null> {
   try {
-    const productId = typeof id === 'string' ? parseInt(id, 10) : id;
-    
+    const productId = typeof id === "string" ? parseInt(id, 10) : id;
+
     if (isNaN(productId)) {
       return null;
     }
 
     const product = await prisma.product.findUnique({
-      where: { id: productId }
+      where: { id: productId },
     });
 
     return product;
@@ -53,10 +55,10 @@ export async function getAllProductIds(): Promise<number[]> {
   try {
     const products = await prisma.product.findMany({
       select: { id: true },
-      orderBy: { id: "desc" }
+      orderBy: { id: "desc" },
     });
-    
-    return products.map(product => product.id);
+
+    return products.map((product) => product.id);
   } catch (error) {
     console.error("Error fetching product IDs:", error);
     return [];

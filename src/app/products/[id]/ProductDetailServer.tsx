@@ -2,7 +2,6 @@ import { getProductServer, getAllProductIds } from "@/lib/api/server";
 import { Product } from "@/types/types";
 import { notFound } from "next/navigation";
 
-// Server component for product details
 export default async function ProductDetailServer({ 
   params 
 }: { 
@@ -132,7 +131,6 @@ export default async function ProductDetailServer({
   );
 }
 
-// Generate static params for all products
 export async function generateStaticParams() {
   const productIds = await getAllProductIds();
   
@@ -141,5 +139,4 @@ export async function generateStaticParams() {
   }));
 }
 
-// Enable ISR for product pages
-export const revalidate = 3600; // 1 hour
+export const revalidate = 3600; 

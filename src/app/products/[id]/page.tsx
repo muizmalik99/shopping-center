@@ -12,11 +12,9 @@ export default async function ProductDetailPage({
   return <ProductDetailClient product={product} />;
 }
 
-// Generate static params for all products
 export async function generateStaticParams() {
   const productIds = await getAllProductIds();
   return productIds.map((id) => ({ id: id.toString() }));
 }
 
-// Enable ISR for product pages
-export const revalidate = 3600; // 1 hour
+export const revalidate = 3600;

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// Enable ISR - revalidate every hour
 export const revalidate = 3600;
 
 type Params = {

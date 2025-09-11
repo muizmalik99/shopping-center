@@ -4,19 +4,12 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
-
-interface CategoryProduct {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-}
+import type { Product } from '@/types/types';
 
 interface CategorySectionProps {
   title: string;
   category: string;
-  products: CategoryProduct[];
+  products: Product[];
   bgColor?: string;
 }
 
@@ -24,7 +17,7 @@ const CategorySection = ({ title, category, products, bgColor = 'bg-gray-50' }: 
   const { addToCart } = useCart();
   const router = useRouter();
 
-  const handleBuyNow = (product: CategoryProduct) => {
+  const handleBuyNow = (product: Product) => {
     addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
     router.push('/checkout');
   };
@@ -61,7 +54,7 @@ const CategorySection = ({ title, category, products, bgColor = 'bg-gray-50' }: 
                   </h3>
                 </Link>
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                  {product.description}
+                  {product.description ?? ''}
                 </p>
                 
                 <div className="flex items-center justify-between">
