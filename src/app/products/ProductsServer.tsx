@@ -1,7 +1,6 @@
 import { getProductsServer } from "@/lib/api/server";
 import { Product } from "@/types/types";
 
-// Server component for products listing
 export default async function ProductsServer({ 
   searchParams 
 }: { 

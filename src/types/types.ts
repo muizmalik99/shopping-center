@@ -30,3 +30,4 @@ export interface CheckoutRequest {
   }>;
   total: number;
 }
+export type SortKey = "name" | "price-low" | "price-high";

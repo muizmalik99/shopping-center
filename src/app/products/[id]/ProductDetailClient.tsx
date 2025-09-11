@@ -130,7 +130,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 Add to Cart
               </button>
 
-              <button onClick={handleBuyNow} className="px-5 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 cursor-pointer">Buy Now</button>
+              <button onClick={handleBuyNow} className="px-5 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-700 cursor-pointer">Buy Now</button>
             </div>
           </div>
         </div>

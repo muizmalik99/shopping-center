@@ -6,6 +6,7 @@ import { Filter, Grid, List } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import { Product } from "@/types/types";
 import { listProducts } from "@/lib/api/products";
+import ProductsFilter from "@/components/ProductsFilter";
 
 const ProductsPage = () => {
   const searchParams = useSearchParams();
@@ -49,25 +50,21 @@ const ProductsPage = () => {
   useEffect(() => {
     let filtered = [...products];
 
-    // Apply category filter
     if (selectedCategory !== "all") {
       filtered = filtered.filter(
-        (product) => product.category.toLowerCase() === selectedCategory.toLowerCase()
+        (product) =>
+          product.category.toLowerCase() === selectedCategory.toLowerCase()
       );
     }
 
-    // Apply search filter
     if (searchQuery) {
       filtered = filtered.filter(
         (product) =>
           product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.description
-            ?.toLowerCase()
-            .includes(searchQuery.toLowerCase())
+          product.description?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Apply price filter only when filters are open
     if (isFilterOpen) {
       filtered = filtered.filter(
         (product) =>
@@ -75,7 +72,6 @@ const ProductsPage = () => {
       );
     }
 
-    // Sorting
     if (tagParam === "best-sellers") {
       filtered.sort((a, b) => (b.reviews ?? 0) - (a.reviews ?? 0));
     } else if (tagParam === "offers") {
@@ -104,7 +100,6 @@ const ProductsPage = () => {
     isFilterOpen,
   ]);
 
-  // Sync query param "q" with search input
   useEffect(() => {
     setSearchQuery(searchParams.get("q") || "");
   }, [searchParams]);
@@ -126,85 +121,28 @@ const ProductsPage = () => {
               ? "Offers"
               : "All Products"}
           </h1>
-          <p className="text-gray-600">
-            Discover amazing products in our collection
-          </p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {isFilterOpen && (
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-sm p-6 lg:sticky lg:top-24">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                  <Filter className="h-5 w-5 mr-2" />
-                  Filters
-                </h3>
-
-                <div className="mb-6">
-                  <h4 className="font-medium text-black mb-3">Category</h4>
-                  <div className="space-y-2">
-                    {["all", "fashion", "electronic", "jewellery"].map(
-                      (category) => (
-                        <label key={category} className="flex items-center">
-                          <input
-                            type="radio"
-                            name="category"
-                            value={category}
-                            checked={selectedCategory === category}
-                            onChange={(e) =>
-                              setSelectedCategory(e.target.value)
-                            }
-                            className="mr-2"
-                          />
-                          <span className="capitalize text-black">
-                            {category}
-                          </span>
-                        </label>
-                      )
-                    )}
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <h4 className="font-medium text-gray-700 mb-3">
-                    Price Range
-                  </h4>
-                  <div className="space-y-2">
-                    <input
-                      type="range"
-                      min="0"
-                      max="1000"
-                      value={priceRange.max}
-                      onChange={(e) =>
-                        setPriceRange((prev) => ({
-                          ...prev,
-                          max: parseInt(e.target.value),
-                        }))
-                      }
-                      className="w-full"
-                    />
-                    <div className="flex justify-between text-sm text-gray-600">
-                      <span>${priceRange.min}</span>
-                      <span>${priceRange.max}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <h4 className="font-medium text-gray-700 mb-3">Sort By</h4>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-                    className="w-full p-2 border border-gray-300 rounded-md"
-                  >
-                    <option value="name">Name</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                  </select>
-                </div>
-              </div>
+            <div
+              className="lg:col-span-1 transition-transform duration-300 ease-in-out z-[110]"
+              style={{
+                transform: isFilterOpen ? "translateX(0)" : "translateX(-100%)",
+              }}
+            >
+              <ProductsFilter
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                priceMax={priceRange.max}
+                setPriceMax={(val) =>
+                  setPriceRange((prev) => ({ ...prev, max: val }))
+                }
+                sortBy={sortBy}
+                setSortBy={(val) => setSortBy(val)}
+              />
             </div>
           )}
 

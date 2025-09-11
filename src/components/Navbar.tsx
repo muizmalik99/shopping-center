@@ -115,7 +115,7 @@ const Navbar = () => {
           {isMenuOpen && (
             <>
               <div
-                className="fixed inset-0 bg-opacity-10 z-[100] transition-opacity duration-300"
+                className="fixed inset-0 bg-opacity-10 z-[100] transition-opacity duration-100"
                 onClick={handleMenuClose}
                 aria-label="Close menu overlay"
               />

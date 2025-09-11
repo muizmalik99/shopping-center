@@ -1,14 +1,13 @@
 "use client";
 
-import { useCallback, useState, memo } from "react";
+import { useCallback, memo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Product } from "@/types/types";
 
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const { addToCart } = useCart();
   const router = useRouter();
 
@@ -18,10 +17,6 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       onAddToCart(product);
     }
   }, [addToCart, onAddToCart, product]);
-
-  const toggleWishlist = useCallback(() => {
-    setIsWishlisted((w) => !w);
-  }, []);
 
   const handleBuyNow = useCallback(() => {
     addToCart(product);
@@ -38,17 +33,6 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </Link>
-
-        <button
-          onClick={toggleWishlist}
-          className={`absolute top-3 right-3 p-2 rounded-full transition-colors cursor-pointer ${
-            isWishlisted
-              ? "bg-red-500 text-white"
-              : "bg-white text-gray-600 hover:text-red-500"
-          }`}
-        >
-          <Heart className={`h-4 w-4 ${isWishlisted ? "fill-current" : ""}`} />
-        </button>
 
         <div className="absolute top-3 left-3">
           <span className="bg-yellow-500 text-white text-xs px-2 py-1 rounded-full capitalize">
