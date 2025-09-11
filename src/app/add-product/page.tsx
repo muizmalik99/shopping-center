@@ -19,15 +19,9 @@ export default function AddProductPage() {
     >
   ) => setFormData((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  const handleImageChange = (file: File | null) => {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const dataUrl = e.target?.result as string;
-      setImagePreview(dataUrl);
-      setFormData((p) => ({ ...p, image: dataUrl }));
-    };
-    reader.readAsDataURL(file);
+  const handleImageChange = (fileUrl: string) => {
+    setImagePreview(fileUrl);
+    setFormData((p) => ({ ...p, image: fileUrl }));
   };
 
   const resetForm = () => {

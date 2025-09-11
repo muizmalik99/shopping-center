@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+// Enable ISR - revalidate every hour
+export const revalidate = 3600;
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const tag = searchParams.get("tag");

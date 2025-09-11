@@ -3,13 +3,17 @@ import { Product } from "@/types/types";
 export async function listProducts(params?: { tag?: string }) {
   const url = new URL("/api/products", typeof window === "undefined" ? "http://localhost" : window.location.origin);
   if (params?.tag) url.searchParams.set("tag", params.tag);
-  const res = await fetch(url.toString(), { cache: "no-store" });
+  const res = await fetch(url.toString(), { 
+    next: { revalidate: 3600 } // ISR - revalidate every hour
+  });
   if (!res.ok) throw new Error("Failed to fetch products");
   return (await res.json()) as Product[];
 }
 
 export async function getProduct(id: number | string) {
-  const res = await fetch(`/api/products/${id}`, { cache: "no-store" });
+  const res = await fetch(`/api/products/${id}`, { 
+    next: { revalidate: 3600 } // ISR - revalidate every hour
+  });
   if (!res.ok) throw new Error("Failed to fetch product");
   return (await res.json()) as Product;
 }

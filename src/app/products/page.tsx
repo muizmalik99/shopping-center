@@ -49,24 +49,25 @@ const ProductsPage = () => {
   useEffect(() => {
     let filtered = [...products];
 
-    if (isFilterOpen) {
-      if (selectedCategory !== "all") {
-        filtered = filtered.filter(
-          (product) => product.category === selectedCategory
-        );
-      }
-
-      if (searchQuery) {
-        filtered = filtered.filter(
-          (product) =>
-            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.description
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
-        );
-      }
+    // Apply category filter
+    if (selectedCategory !== "all") {
+      filtered = filtered.filter(
+        (product) => product.category.toLowerCase() === selectedCategory.toLowerCase()
+      );
     }
 
+    // Apply search filter
+    if (searchQuery) {
+      filtered = filtered.filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          product.description
+            ?.toLowerCase()
+            .includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Apply price filter only when filters are open
     if (isFilterOpen) {
       filtered = filtered.filter(
         (product) =>
