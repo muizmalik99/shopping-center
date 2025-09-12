@@ -1,4 +1,4 @@
-import Image from 'next/image';
+ 
 import { memo, useMemo } from 'react';
 import { brands } from '@/data/brands';
 
@@ -19,12 +19,10 @@ const BrandLogos = () => {
                 key={`${brand.name}-${index}`}
                 className="flex-shrink-0 mx-8 flex items-center justify-center w-28 h-16 relative"
               >
-                <Image
+                <img
                   src={brand.logo}
                   alt={brand.name + ' logo'}
-                  fill
-                  sizes="112px"
-                  className="object-contain p-2"
+                  className="object-contain p-2 w-28 h-16"
                 />
               </div>
             ))}

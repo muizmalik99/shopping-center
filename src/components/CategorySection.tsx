@@ -1,10 +1,11 @@
 "use client";
 
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useCart } from '@/contexts/CartContext';
-import type { Product } from '@/types/types';
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useCart } from "@/contexts/CartContext";
+import type { Product } from "@/types/types";
+ 
 
 interface CategorySectionProps {
   title: string;
@@ -13,13 +14,23 @@ interface CategorySectionProps {
   bgColor?: string;
 }
 
-const CategorySection = ({ title, category, products, bgColor = 'bg-gray-50' }: CategorySectionProps) => {
+const CategorySection = ({
+  title,
+  category,
+  products,
+  bgColor = "bg-gray-50",
+}: CategorySectionProps) => {
   const { addToCart } = useCart();
   const router = useRouter();
 
   const handleBuyNow = (product: Product) => {
-    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
-    router.push('/checkout');
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
+    router.push("/checkout");
   };
   return (
     <section className={`py-16 ${bgColor}`}>
@@ -33,12 +44,17 @@ const CategorySection = ({ title, category, products, bgColor = 'bg-gray-50' }: 
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           {products.map((product) => (
-            <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
+            <div
+              key={product.id}
+              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group"
+            >
               <div className="relative overflow-hidden">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  width={800}
+                  height={192}
+                  className="h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-3 left-3">
                   <span className="bg-yellow-500 text-white text-xs px-2 py-1 rounded-full">
@@ -54,14 +70,17 @@ const CategorySection = ({ title, category, products, bgColor = 'bg-gray-50' }: 
                   </h3>
                 </Link>
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                  {product.description ?? ''}
+                  {product.description ?? ""}
                 </p>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="text-xl font-bold text-yellow-600">
                     ${product.price}
                   </div>
-                  <button onClick={() => handleBuyNow(product)} className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors cursor-pointer">
+                  <button
+                    onClick={() => handleBuyNow(product)}
+                    className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors cursor-pointer"
+                  >
                     Buy Now
                   </button>
                 </div>

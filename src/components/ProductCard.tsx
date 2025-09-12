@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Product } from "@/types/types";
+ 
 
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const { addToCart } = useCart();

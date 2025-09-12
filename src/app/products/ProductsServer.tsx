@@ -1,5 +1,6 @@
 import { getProductsServer } from "@/lib/api/server";
-import { Product } from "@/types/types";
+import Link from "next/link";
+ 
 
 export default async function ProductsServer({ 
   searchParams 
@@ -44,13 +45,13 @@ export default async function ProductsServer({
             {products.map((product) => (
               <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
                 <div className="relative overflow-hidden">
-                  <a href={`/products/${product.id}`}>
+                  <Link href={`/products/${product.id}`}>
                     <img
                       src={product.image}
                       alt={product.name}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                  </a>
+                  </Link>
                   <div className="absolute top-3 left-3">
                     <span className="bg-yellow-500 text-white text-xs px-2 py-1 rounded-full capitalize">
                       {product.category}
@@ -59,11 +60,11 @@ export default async function ProductsServer({
                 </div>
 
                 <div className="p-4">
-                  <a href={`/products/${product.id}`}>
+                  <Link href={`/products/${product.id}`}>
                     <h3 className="font-semibold text-gray-800 mb-2 hover:text-yellow-600 transition-colors line-clamp-2">
                       {product.name}
                     </h3>
-                  </a>
+                  </Link>
 
                   {product.description && (
                     <p className="text-gray-600 text-sm mb-3 line-clamp-2">
@@ -76,12 +77,12 @@ export default async function ProductsServer({
                       ${product.price}
                     </div>
                     <div className="flex space-x-2">
-                      <a
+                      <Link
                         href={`/products/${product.id}`}
                         className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center space-x-2"
                       >
                         <span>View Details</span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

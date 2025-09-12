@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { uploadSingle, getFileUrl } from '@/lib/multer';
-import { prisma } from '@/lib/prisma';
+import { getFileUrl } from '@/lib/multer';
+import fs from 'fs';
+import path from 'path';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,10 +29,11 @@ export async function POST(request: NextRequest) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-
-    const fs = require('fs');
-    const path = require('path');
-    const uploadPath = path.join(process.cwd(), 'public/uploads/products', filename);
+    const uploadsDir = path.join(process.cwd(), 'public/uploads/products');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    const uploadPath = path.join(uploadsDir, filename);
     
     fs.writeFileSync(uploadPath, buffer);
 
@@ -56,9 +61,8 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Filename required' }, { status: 400 });
     }
 
-    const fs = require('fs');
-    const path = require('path');
-    const filePath = path.join(process.cwd(), 'public/uploads/products', filename);
+    const uploadsDir = path.join(process.cwd(), 'public/uploads/products');
+    const filePath = path.join(uploadsDir, filename);
     
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);

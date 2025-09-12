@@ -1,19 +1,19 @@
 import multer from 'multer';
 import path from 'path';
-import { NextRequest } from 'next/server';
+import fs from 'fs';
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (req: Express.Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => {
     cb(null, path.join(process.cwd(), 'public/uploads/products'));
   },
-  filename: (req, file, cb) => {
+  filename: (req: Express.Request, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const ext = path.extname(file.originalname);
     cb(null, `product-${uniqueSuffix}${ext}`);
   }
 });
 
-const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
   if (file.mimetype.startsWith('image/')) {
     cb(null, true);
   } else {
@@ -36,7 +36,6 @@ export const getFileUrl = (filename: string): string => {
 };
 
 export const deleteFile = (filename: string): void => {
-  const fs = require('fs');
   const filePath = path.join(process.cwd(), 'public/uploads/products', filename);
   
   try {

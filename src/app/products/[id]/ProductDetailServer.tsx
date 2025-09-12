@@ -1,6 +1,7 @@
 import { getProductServer, getAllProductIds } from "@/lib/api/server";
-import { Product } from "@/types/types";
+ 
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 export default async function ProductDetailServer({ 
   params 
@@ -20,10 +21,10 @@ export default async function ProductDetailServer({
           <ol className="flex items-center space-x-4">
             <li>
               <div>
-                <a href="/" className="text-gray-400 hover:text-gray-500">
+                <Link href="/" className="text-gray-400 hover:text-gray-500">
                   <span className="sr-only">Home</span>
                   Home
-                </a>
+                </Link>
               </div>
             </li>
             <li>
@@ -37,12 +38,12 @@ export default async function ProductDetailServer({
                 >
                   <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                 </svg>
-                <a
+                <Link
                   href="/products"
                   className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                 >
                   Products
-                </a>
+                </Link>
               </div>
             </li>
             <li>

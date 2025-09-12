@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useCallback, memo } from "react";
 import { X, Trash2, ShoppingBag } from "lucide-react";
-import { useCart, CartItem } from "@/contexts/CartContext";
+import { useCart} from "@/contexts/CartContext";
+import Link from "next/link";
+ 
 
 interface CartProps {
   isOpen: boolean;
@@ -121,12 +123,12 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                 ${total}
               </span>
             </div>
-            <a
+            <Link
               href="/checkout"
               className="w-full inline-block text-center bg-yellow-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-600 transition-all duration-200 hover:scale-105 hover:shadow-lg cursor-pointer"
             >
               Checkout
-            </a>
+            </Link>
           </div>
         )}
       </div>

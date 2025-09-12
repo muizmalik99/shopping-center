@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
 import { ShoppingCart } from "lucide-react";
 import { Product } from "@/types/types";
+ 
 
 function Price({ price }: { price: number }) {
   return <div className="text-3xl font-bold text-yellow-600">${price}</div>;

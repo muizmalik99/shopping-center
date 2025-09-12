@@ -31,3 +31,13 @@ export interface CheckoutRequest {
   total: number;
 }
 export type SortKey = "name" | "price-low" | "price-high";
+
+export interface CartContextType {
+  cartItems: CartItem[];
+  addToCart: (product: { id: number; name: string; price: number; image: string }) => void;
+  removeFromCart: (id: number) => void;
+  updateQuantity: (id: number, quantity: number) => void;
+  clearCart: () => void;
+  cartCount: number;
+  total: number;
+}

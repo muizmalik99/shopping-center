@@ -1,21 +1,17 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export const revalidate = 3600;
 
-type Params = {
-  params: { id: string };
-};
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const idNumber = Number(id);
 
-export async function GET(_req: Request, { params }: Params) {
-  const idString = params.id;
-  const id = Number(idString);
-
-  if (Number.isNaN(id)) {
+  if (Number.isNaN(idNumber)) {
     return NextResponse.json({ error: "Invalid product id" }, { status: 400 });
   }
 
-  const product = await prisma.product.findUnique({ where: { id } });
+  const product = await prisma.product.findUnique({ where: { id: idNumber } });
   if (!product) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
