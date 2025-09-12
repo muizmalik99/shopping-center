@@ -5,14 +5,6 @@ import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
 import type { Product } from "@/types/types";
- 
-
-interface CategorySectionProps {
-  title: string;
-  category: string;
-  products: Product[];
-  bgColor?: string;
-}
 
 const CategorySection = ({
   title,
@@ -104,3 +96,9 @@ const CategorySection = ({
 };
 
 export default CategorySection;
+interface CategorySectionProps {
+  title: string;
+  category: string;
+  products: Product[];
+  bgColor?: string;
+}

@@ -3,10 +3,10 @@
 import { useState, useEffect, useCallback, memo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Filter, Grid, List } from "lucide-react";
-import ProductCard from "@/components/ProductCard";
 import { Product } from "@/types/types";
 import { listProducts } from "@/lib/api/products";
 import ProductsFilter from "@/components/ProductsFilter";
+import ProductCardClient from "@/components/ProductCardClient";
 
 const ProductsPage = () => {
   const searchParams = useSearchParams();
@@ -220,7 +220,7 @@ const ProductsPage = () => {
                 }`}
               >
                 {filteredProducts.map((product) => (
-                  <ProductCard
+                  <ProductCardClient
                     key={product.id}
                     product={product}
                     onAddToCart={handleAddToCart}

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Upload, X, Loader2 } from "lucide-react";
- 
+import Image from "next/image";
 
 interface FileUploadProps {
   label: string;
@@ -23,13 +23,13 @@ export default function FileUpload({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file");
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      alert('File size too large. Maximum 5MB allowed');
+      alert("File size too large. Maximum 5MB allowed");
       return;
     }
 
@@ -37,10 +37,10 @@ export default function FileUpload({
 
     try {
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append("image", file);
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
+      const response = await fetch("/api/upload", {
+        method: "POST",
         body: formData,
       });
 
@@ -49,11 +49,11 @@ export default function FileUpload({
       if (result.success) {
         onChange(result.url);
       } else {
-        alert(result.error || 'Failed to upload file');
+        alert(result.error || "Failed to upload file");
       }
     } catch (error) {
-      console.error('Upload error:', error);
-      alert('Failed to upload file');
+      console.error("Upload error:", error);
+      alert("Failed to upload file");
     } finally {
       setUploading(false);
     }
@@ -61,16 +61,16 @@ export default function FileUpload({
 
   const handleClear = async () => {
     if (preview) {
-      const filename = preview.split('/').pop();
+      const filename = preview.split("/").pop();
       if (filename) {
         try {
-          await fetch('/api/upload', {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
+          await fetch("/api/upload", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ filename }),
           });
         } catch (error) {
-          console.error('Delete error:', error);
+          console.error("Delete error:", error);
         }
       }
     }
@@ -86,7 +86,7 @@ export default function FileUpload({
         <label
           className={`flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300
                      border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100
-                     ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                     ${uploading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           {uploading ? (
             <Loader2 className="w-8 h-8 mb-2 text-gray-400 animate-spin" />
@@ -94,7 +94,7 @@ export default function FileUpload({
             <Upload className="w-8 h-8 mb-2 text-gray-400" />
           )}
           <p className="text-sm text-gray-500">
-            {uploading ? 'Uploading...' : 'Click to upload or drag and drop'}
+            {uploading ? "Uploading..." : "Click to upload or drag and drop"}
           </p>
           <input
             type="file"
@@ -108,10 +108,12 @@ export default function FileUpload({
 
         {preview && (
           <div className="relative inline-block">
-            <img
+            <Image
               src={preview}
               alt="Preview"
-              className="w-32 h-32 object-cover rounded-lg border border-gray-300"
+              width={128}
+              height={128}
+              className=" object-cover rounded-lg border border-gray-300"
             />
             <button
               type="button"

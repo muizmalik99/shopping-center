@@ -1,15 +1,16 @@
 import { getProductServer, getAllProductIds } from "@/lib/api/server";
- 
+
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
-export default async function ProductDetailServer({ 
-  params 
-}: { 
-  params: { id: string } 
+export default async function ProductDetailServer({
+  params,
+}: {
+  params: { id: string };
 }) {
   const product = await getProductServer(params.id);
-  
+
   if (!product) {
     notFound();
   }
@@ -68,9 +69,11 @@ export default async function ProductDetailServer({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
           <div className="space-y-4">
             <div className="aspect-square overflow-hidden rounded-lg bg-white">
-              <img
+              <Image
                 src={product.image}
                 alt={product.name}
+                width={500}
+                height={500}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -119,10 +122,14 @@ export default async function ProductDetailServer({
 
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-500">Stock:</span>
-              <span className={`text-sm font-medium ${
-                (product.stock || 0) > 0 ? "text-green-600" : "text-red-600"
-              }`}>
-                {(product.stock || 0) > 0 ? `${product.stock} available` : "Out of Stock"}
+              <span
+                className={`text-sm font-medium ${
+                  (product.stock || 0) > 0 ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {(product.stock || 0) > 0
+                  ? `${product.stock} available`
+                  : "Out of Stock"}
               </span>
             </div>
           </div>
@@ -134,10 +141,10 @@ export default async function ProductDetailServer({
 
 export async function generateStaticParams() {
   const productIds = await getAllProductIds();
-  
+
   return productIds.map((id) => ({
     id: id.toString(),
   }));
 }
 
-export const revalidate = 3600; 
+export const revalidate = 3600;
